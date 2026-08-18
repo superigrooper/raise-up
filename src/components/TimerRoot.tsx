@@ -15,7 +15,7 @@ export function TimerRoot() {
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <header>
           <div className="text-sm uppercase tracking-[0.35em] text-zinc-500">
-          место,где любят покер
+            место,где любят покер
           </div>
           <h1 className="mt-2 text-3xl font-bold text-white md:text-5xl">
             RAISE UP

@@ -21,7 +21,8 @@ export function PresetSelector() {
           >
             <div className="font-semibold text-white">{preset.name}</div>
             <div className="mt-1 text-sm text-zinc-400">
-              {formatTime(preset.stages[0].durationSec)} - продолжительность одного уровня
+              {formatTime(preset.stages[0].durationSec)} мин. - продолжительность
+              одного уровня
             </div>
             <div className="mt-1 text-sm text-zinc-500">
               {/* {preset.stage} уровней блайндов */}
