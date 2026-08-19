@@ -5,14 +5,12 @@ function increaseByPercentage(number: number, percent: number): number {
   return Math.ceil(Math.round(result * 100) / 100);
 }
 
-
 const dataSetting = {
   duration: 900,
   SB: 5,
   BB: 10,
   ante: 0,
-
-}
+};
 
 export const homeStandart: TournamentPreset = {
   id: "home-standard",
