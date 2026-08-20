@@ -1,15 +1,13 @@
 // types/poker.ts
-export type Theme = 'navy' | 'light';
+export type Theme = "navy" | "light";
 
 export interface TournamentConfig {
   startBB: number;
-  // percentGrowth: number;
   levelDuration: number;
   useAnte: boolean;
   anteStartBB: number;
   breakEvery: number;
   breakDuration: number;
-  warningTime: number;    // НОВОЕ ПОЛЕ: время предупреждения в секундах (н-р: 30)
 }
 
 export interface TournamentPreset {
@@ -36,10 +34,13 @@ export interface PokerStore {
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  totalDurationStr: string;
+  // totalDurationStr: string;
   theme: Theme;
-  
-  setConfigValue: (key: keyof TournamentConfig, value: number | boolean) => void;
+
+  setConfigValue: (
+    key: keyof TournamentConfig,
+    value: number | boolean,
+  ) => void;
   selectPreset: (presetId: string) => void;
   buildTournament: () => void;
   setIsPaused: (paused: boolean) => void;

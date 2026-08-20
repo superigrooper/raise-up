@@ -1,15 +1,15 @@
 "use client";
 
-import React from 'react';
-import { usePokerStore } from '@/store/usePokerStore';
-import { Theme } from '@/types/poker';
+import React from "react";
+import { usePokerStore } from "@/store/usePokerStore";
+import { Theme } from "@/types/poker";
 
 export const ThemeSelector: React.FC = () => {
   const { theme, setTheme } = usePokerStore();
 
   const themes: { id: Theme; name: string; icon: string }[] = [
-    { id: 'navy', name: 'Тёмная', icon: '🌌' },
-    { id: 'light', name: 'Светлая', icon: '☀️' },
+    { id: "navy", name: "Тёмная", icon: "🌌" },
+    { id: "light", name: "Светлая", icon: "☀️" },
   ];
 
   return (
@@ -20,8 +20,8 @@ export const ThemeSelector: React.FC = () => {
           onClick={() => setTheme(t.id)}
           className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border transition-all ${
             theme === t.id
-              ? 'bg-[#e94560] text-white border-[#e94560] shadow-md shadow-red-900/20'
-              : 'bg-transparent text-gray-600 dark:text-gray-400 navy:text-slate-400 border-transparent hover:text-gray-900 dark:hover:text-white navy:hover:text-slate-200'
+              ? "bg-[#e94560] text-white border-[#e94560] shadow-md shadow-red-900/20"
+              : "bg-transparent text-gray-600 dark:text-gray-400 navy:text-slate-400 border-transparent hover:text-gray-900 dark:hover:text-white navy:hover:text-slate-200"
           }`}
         >
           <span>{t.icon}</span>
