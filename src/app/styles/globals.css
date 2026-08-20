@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* 1. РЕГИСТРАЦИЯ КАСТОМНОЙ ТЕМЫ ДЛЯ TAILWIND v4 */
+/* Это заменяет плагины из tailwind.config.js и включает синтаксис navy:bg-... */
+@custom-variant navy (.navy &);
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 2. СТИЛИЗАЦИЯ СКРОЛЛБАРА ДЛЯ ТАБЛИЦЫ УРОВНЕЙ */
+/* Из-за ограничений @apply в v4, пишем чистые свойства CSS для безопасности сборки */
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Скроллбар по умолчанию (Светлая тема) */
+.table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* gray-300 */
+  border-radius: 9999px;
+}
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8; /* gray-400 */
+}
+
+/* Скроллбар для Угольно-чёрной темы */
+.dark .table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #1f2937; /* gray-800 */
+}
+.dark .table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #374151; /* gray-700 */
+}
+
+/* Скроллбар для Тёмно-синей темы */
+.navy .table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #1e293b; /* slate-800 */
+}
+.navy .table-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: #334155; /* slate-700 */
+}
