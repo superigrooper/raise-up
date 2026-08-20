@@ -30,9 +30,9 @@ export default function Home() {
     <div className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center ${getThemeClass()}`}>
       
       {/* Шапка приложения (скрывается или видоизменяется в режиме Theater Mode) */}
-      <header className={`mb-6 md:mb-8 w-full border-b pb-4 border-gray-200 dark:border-gray-800 navy:border-slate-850 flex flex-col sm:flex-row justify-between items-center gap-4 ${
-        isTheaterMode ? 'max-w-4xl' : 'max-w-2xl'
-      }`}>
+      <header  className={`mb-6 md:mb-8 w-full border-b pb-4 border-gray-200 dark:border-gray-800 navy:border-slate-850 flex flex-col sm:flex-row justify-between items-center gap-4 ${
+    isTheaterMode ? "max-w-6xl" : "max-w-2xl" // ИСПРАВЛЕНО: max-w-6xl вместо max-w-4xl
+  }`}>
         <div className="text-center sm:text-left">
           <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 navy:from-slate-100 navy:to-slate-400 bg-clip-text text-transparent">
             {isTheaterMode ? '📋 Табло турнира' : 'RAISE -UP'}
@@ -60,8 +60,8 @@ export default function Home() {
 
       {/* Адаптивный контейнер */}
       <main className={`w-full flex flex-col gap-6 transition-all duration-300 ${
-        isTheaterMode ? 'max-w-4xl' : 'max-w-2xl'
-      }`}>
+    isTheaterMode ? "max-w-6xl" : "max-w-2xl" // ИСПРАВЛЕНО: max-w-6xl вместо max-w-4xl
+  }`}>
         {/* Форма настроек рендерится только если режим "полного экрана" выключен */}
         {!isTheaterMode && <ConfigForm />}
         

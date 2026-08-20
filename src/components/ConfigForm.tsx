@@ -130,10 +130,13 @@ export const ConfigForm: React.FC = () => {
         </div>
 
         <button 
-          onClick={buildTournament} 
+            onClick={() => {
+    buildTournament();
+    setIsCustomOpen(false);
+  }} 
           className="w-full py-3 bg-[#e94560] hover:bg-[#ff5270] text-white font-bold rounded-lg transition-colors shadow-lg shadow-red-500/10 cursor-pointer text-sm"
         >
-          Применить и запустить кастомную структуру
+          Применить структуру
         </button>
       </div>
     </div>
