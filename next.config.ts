@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   env: {
     NEXT_PUBLIC_APP_VERSION: pkg.version,
-  }
+  },
 };
 
 export default nextConfig;
