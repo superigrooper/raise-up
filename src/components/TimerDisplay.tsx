@@ -34,9 +34,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused, setIsPaused]);
 
-  // Логика отсчета с динамическим предупреждением
-  // Внутри components/TimerDisplay.tsx замените хук тиканья таймера на этот:
-
   useEffect(() => {
     if (isPaused) return;
 
@@ -58,9 +55,7 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
     }, 100);
 
     return () => clearInterval(interval);
-    // ИСПРАВЛЕНИЕ: Мы оставили в зависимостях только то, что не меняется каждую секунду.
-    // Убрали currentIndex и grid, благодаря чему интервал больше не перезапускается самовольно.
-  }, [isPaused, currentIndex, nextLevel, setSecondsLeft,]);
+  }, [isPaused, currentIndex, nextLevel, setSecondsLeft]);
 
   const formatTime = (totalSeconds: number): string => {
     const m = Math.floor(totalSeconds / 60)
@@ -78,12 +73,11 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
   return (
     <div
       className={`p-6 rounded-xl flex flex-col items-center shadow-lg border transition-all duration-300 bg-white dark:bg-[#161625] navy:bg-[#121224] border-gray-200 dark:border-gray-800 navy:border-slate-800 w-full ${
-        isTheaterMode ? "py-16 px-10" : "py-6" // В полном экране делаем больше внутренние отступы карточки
+        isTheaterMode ? "py-16 px-10" : "py-6"
       }`}
     >
       {currentData ? (
         <>
-          {/* Кастомизация плашки уровня */}
           <div
             className={`font-bold tracking-widest text-gray-400 dark:text-gray-500 navy:text-slate-500 uppercase ${
               isTheaterMode ? "text-xl tracking-[0.2em]" : "text-sm"
@@ -94,7 +88,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
               : `🎯 Уровень ${currentData.levelNum}`}
           </div>
 
-          {/* Гигантские блайнды в полном экране */}
           <div
             className={`font-extrabold my-4 tracking-tight text-gray-900 dark:text-white navy:text-slate-100 transition-all text-center leading-none ${
               isTheaterMode
@@ -107,7 +100,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
               : `${currentData.sb} / ${currentData.bb}`}
           </div>
 
-          {/* Увеличенная строка Анте */}
           <div
             className={`text-yellow-600 dark:text-yellow-500 navy:text-amber-500 font-semibold min-h-[24px] ${
               isTheaterMode ? "text-2xl mb-12" : "text-base mb-6"
@@ -126,7 +118,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
         </div>
       )}
 
-      {/* ОГРОМНЫЙ ТАЙМЕР — теперь он стал колоссальным и отлично читается издалека */}
       <div
         className={`font-mono text-[#e94560] drop-shadow-[0_0_35px_rgba(233,69,96,0.4)] font-black select-none transition-all leading-none ${
           isTheaterMode
@@ -137,7 +128,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
         {formatTime(secondsLeft)}
       </div>
 
-      {/* Кнопки управления — стали шире и массивнее (высота py-4 вместо py-3) */}
       <div
         className={`flex gap-4 w-full transition-all ${
           isTheaterMode ? "max-w-2xl" : "max-w-xl"
@@ -173,15 +163,29 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
       </div>
 
       <div
-        className={`mt-10 w-full border-t border-gray-200 dark:border-gray-900/60 navy:border-slate-900/60 pt-5 space-y-2 text-gray-500 dark:text-gray-400 navy:text-slate-400 transition-all ${
+        className={`w-full border-t border-gray-200 dark:border-gray-900/60 navy:border-slate-900/60 pt-5 space-y-2 text-gray-500 dark:text-gray-400 navy:text-slate-400 transition-all ${
           isTheaterMode ? "max-w-2xl text-sm" : "max-w-xl text-xs"
         }`}
       >
-        <div className="flex justify-between">
-          <span>Следующий уровень:</span>
-          <span className="text-gray-900 dark:text-white navy:text-slate-200 font-bold">
-            {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
-          </span>
+        <div
+          className={`w-full border-t border-gray-200 dark:border-gray-900/60 navy:border-slate-900/60 pt-5 space-y-3 text-gray-500 dark:text-gray-400 navy:text-slate-400 transition-all ${
+            isTheaterMode ? "text-lg" : "text-sm"
+          }`}
+        >
+          <div className="w-full flex justify-between items-center bg-gray-50 dark:bg-gray-900/40 navy:bg-[#0b0b14]/40 p-3 rounded-xl border border-gray-100 dark:border-gray-900/30 navy:border-slate-900/30">
+            <span className="font-medium tracking-wide">
+              Следующий уровень:
+            </span>
+            <span
+              className={`text-gray-900 dark:text-white navy:text-slate-200 font-extrabold transition-all ${
+                isTheaterMode
+                  ? "text-3xl tracking-tight text-[#e94560]"
+                  : "text-xl"
+              }`}
+            >
+              {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
+            </span>
+          </div>
         </div>
       </div>
     </div>
