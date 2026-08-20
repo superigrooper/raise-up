@@ -55,7 +55,7 @@ export default function Home() {
               onClick={() => setIsTheaterMode(false)}
               className="px-4 py-1.5 text-xs font-bold rounded-lg border border-[#e94560] text-[#e94560] hover:bg-[#e94560] hover:text-white transition-all cursor-pointer"
             >
-              ↩ Настройки
+              ↩ Выйти из полноэкранного режима
             </button>
           )}
         </div>
