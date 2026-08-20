@@ -1,4 +1,3 @@
-// app/page.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -23,7 +22,6 @@ export default function Home() {
   if (!isMounted) return null;
 
   const getThemeClass = () => {
-    // if (theme === 'dark') return 'dark bg-[#0f0f1b] text-white';
     if (theme === 'navy') return 'navy bg-[#090916] text-white';
     return 'bg-gray-100 text-gray-900';
   };
@@ -37,11 +35,11 @@ export default function Home() {
       }`}>
         <div className="text-center sm:text-left">
           <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 navy:from-slate-100 navy:to-slate-400 bg-clip-text text-transparent">
-            {isTheaterMode ? '📋 Табло турнира' : 'Poker Director Pro'}
+            {isTheaterMode ? '📋 Табло турнира' : 'RAISE -UP'}
           </h1>
           {!isTheaterMode && (
             <p className="text-xs text-gray-500 dark:text-gray-400 navy:text-slate-400 mt-0.5 uppercase tracking-widest">
-              Next.js • Zustand • Tailwind v4
+                <span>v{process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0"}</span>
             </p>
           )}
         </div>

@@ -9,7 +9,6 @@ export const ThemeSelector: React.FC = () => {
 
   const themes: { id: Theme; name: string; icon: string }[] = [
     { id: 'navy', name: 'Тёмная', icon: '🌌' },
-    // { id: 'dark', name: 'Угольно-чёрная', icon: '⬛' },
     { id: 'light', name: 'Светлая', icon: '☀️' },
   ];
 
