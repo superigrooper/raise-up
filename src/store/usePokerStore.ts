@@ -1,29 +1,51 @@
 // store/usePokerStore.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { PokerStore, TournamentRow, TournamentPreset } from '@/types/poker';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { PokerStore, TournamentRow, TournamentPreset } from "@/types/poker";
 
 // ЖЁСТКАЯ ПРОФЕССИОНАЛЬНАЯ СЕТКА БЛАЙНДОВ (WSOP / EPT)
 // Записана компактной строкой через пробел, чтобы редактор её не повреждал
-const BLINDS_STRING = "2 4 5 10 20 30 40 50 60 80 100 150 200 250 300 400 500 600 800 1000 1200 1400 1600 2000 2500 3000 4000 5000 6000 8000 10000 12000 15000 20000 25000 30000 40000 50000 60000 80000 100000 120000 150000 200000 300000 400000 500000 600000 800000 1000000";
+const BLINDS_STRING =
+  "2 4 5 10 20 30 40 50 60 80 100 150 200 250 300 400 500 600 800 1000 1200 1400 1600 2000 2500 3000 4000 5000 6000 8000 10000 12000 15000 20000 25000 30000 40000 50000 60000 80000 100000 120000 150000 200000 300000 400000 500000 600000 800000 1000000";
 const HARD_BLINDS_STRUCTURE: number[] = BLINDS_STRING.split(" ").map(Number);
 
 const defaultPresets: TournamentPreset[] = [
   {
-    id: 'regular',
-    name: 'Regular',
-    config: { startBB: 4, levelDuration: 15, useAnte: true, anteStartBB: 40, breakEvery: 4, breakDuration: 10, warningTime: 60 }
+    id: "regular",
+    name: "Regular",
+    config: {
+      startBB: 4,
+      levelDuration: 15,
+      useAnte: true,
+      anteStartBB: 40,
+      breakEvery: 4,
+      breakDuration: 10,
+    },
   },
   {
-    id: 'turbo',
-    name: 'Turbo',
-    config: { startBB: 4, levelDuration: 8, useAnte: true, anteStartBB: 60, breakEvery: 5, breakDuration: 5, warningTime: 30 }
+    id: "turbo",
+    name: "Turbo",
+    config: {
+      startBB: 4,
+      levelDuration: 8,
+      useAnte: true,
+      anteStartBB: 60,
+      breakEvery: 5,
+      breakDuration: 5,
+    },
   },
   {
-    id: 'hyper',
-    name: 'Hyper',
-    config: { startBB: 10, levelDuration: 3, useAnte: false, anteStartBB: 100, breakEvery: 6, breakDuration: 3, warningTime: 15 }
-  }
+    id: "hyper",
+    name: "Hyper",
+    config: {
+      startBB: 10,
+      levelDuration: 3,
+      useAnte: false,
+      anteStartBB: 100,
+      breakEvery: 6,
+      breakDuration: 3,
+    },
+  },
 ];
 
 export const usePokerStore = create<PokerStore>()(
@@ -36,19 +58,19 @@ export const usePokerStore = create<PokerStore>()(
       currentIndex: 0,
       secondsLeft: 0,
       isPaused: true,
-      totalDurationStr: '0 ч. 0 мин.',
-      theme: 'navy',
+
+      theme: "navy",
 
       setConfigValue: (key, value) => {
         set((state) => ({
           config: { ...state.config, [key]: value },
-          activePresetId: 'custom'
+          activePresetId: "custom",
         }));
         get().buildTournament();
       },
 
       selectPreset: (presetId) => {
-        const preset = get().presets.find(p => p.id === presetId);
+        const preset = get().presets.find((p) => p.id === presetId);
         if (preset) {
           set({ config: { ...preset.config }, activePresetId: presetId });
           get().buildTournament();
@@ -62,24 +84,30 @@ export const usePokerStore = create<PokerStore>()(
         const tempGrid: TournamentRow[] = [];
 
         // Находим индекс стартового блайнда в нашей жесткой структуре
-        let blindsPointer = HARD_BLINDS_STRUCTURE.findIndex(bb => bb >= config.startBB);
+        let blindsPointer = HARD_BLINDS_STRUCTURE.findIndex(
+          (bb) => bb >= config.startBB,
+        );
         if (blindsPointer === -1) blindsPointer = 0;
 
         // Генерируем ровно 20 ИГРОВЫХ уровней (перерывы в этот лимит не входят)
         while (gameLevelCounter <= HARD_BLINDS_STRUCTURE.length) {
           // Извлекаем текущий ББ по указателю
           let currentBB = HARD_BLINDS_STRUCTURE[blindsPointer];
-          
+
           // Бесконечный предохранитель: если вышли за рамки массива, плавно растим блайнды х1.5
           if (!currentBB) {
-            const lastBB = HARD_BLINDS_STRUCTURE[HARD_BLINDS_STRUCTURE.length - 1];
+            const lastBB =
+              HARD_BLINDS_STRUCTURE[HARD_BLINDS_STRUCTURE.length - 1];
             const stepsOut = blindsPointer - (HARD_BLINDS_STRUCTURE.length - 1);
-            currentBB = Math.round((lastBB * Math.pow(1.5, stepsOut)) / 100000) * 100000;
+            currentBB =
+              Math.round((lastBB * Math.pow(1.5, stepsOut)) / 100000) * 100000;
           }
 
-          // Строгое исключение: если ББ равен 5, МБ равен 2. В остальных случаях — половина.
           const sb = currentBB === 5 ? 2 : currentBB / 2;
-          const ante = (config.useAnte && currentBB >= config.anteStartBB) ? currentBB : 0;
+          const ante = config.useAnte && currentBB >= config.anteStartBB 
+          ? 
+          currentBB : 
+          0;
 
           tempGrid.push({
             isBreak: false,
@@ -99,11 +127,11 @@ export const usePokerStore = create<PokerStore>()(
           if (gameLevelCounter % config.breakEvery === 0) {
             tempGrid.push({
               isBreak: true,
-              levelNum: '—',
+              levelNum: "—",
               labelText: `Перерыв`,
-              sb: '—',
-              bb: '—',
-              ante: '—',
+              sb: "—",
+              bb: "—",
+              ante: "—",
               duration: config.breakDuration,
             });
             totalMinutes += config.breakDuration;
@@ -119,31 +147,38 @@ export const usePokerStore = create<PokerStore>()(
           currentIndex: 0,
           isPaused: true,
           secondsLeft: tempGrid.length > 0 ? tempGrid[0].duration * 60 : 0,
-          totalDurationStr: `${h} ч. ${m} мин.`
         });
       },
 
       setIsPaused: (paused) => set({ isPaused: paused }),
       setSecondsLeft: (seconds) => {
-        if (typeof seconds === 'function') {
+        if (typeof seconds === "function") {
           set((state) => ({ secondsLeft: seconds(state.secondsLeft) }));
         } else {
           set({ secondsLeft: seconds });
         }
       },
+
       nextLevel: () => {
-        const { currentIndex, grid } = get();
+        const { currentIndex, grid, isPaused } = get();
         const nextIndex = currentIndex + 1;
+
         if (nextIndex < grid.length) {
-          set({ currentIndex: nextIndex, secondsLeft: grid[nextIndex].duration * 60 });
+          set({
+            currentIndex: nextIndex,
+            secondsLeft: Number(grid[nextIndex].duration) * 60,
+            isPaused: true,
+          });
         } else {
-          set({ isPaused: true });
+          // Если турнир кончился — пауза
+          set({ isPaused: true }); 
         }
       },
-      setTheme: (theme) => set({ theme })
+
+      setTheme: (theme) => set({ theme }),
     }),
     {
-      name: 'poker-tournament-storage-v13', // Новый ключ кэша для полной очистки памяти
-    }
-  )
+      name: "poker-tournament-storage-v13", // Новый ключ кэша для полной очистки памяти
+    },
+  ),
 );
