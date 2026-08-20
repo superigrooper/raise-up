@@ -117,26 +117,6 @@ export const ConfigForm: React.FC = () => {
             </div>
           )}
 
-          {/* НОВОЕ ПОЛЕ: КАСТОМИЗАЦИЯ ЗВУКОВОГО ПРЕДУПРЕЖДЕНИЯ */}
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-                Предупреждение за (сек):
-              </label>
-              <span className="text-[10px] text-gray-400 dark:text-gray-500 navy:text-slate-500">
-                (0 — выключить звук)
-              </span>
-            </div>
-            <input
-              type="number"
-              value={config.warningTime}
-              onChange={(e) =>
-                setConfigValue("warningTime", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none transition-all bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
-
           {/* Перерывы */}
           <div className="flex justify-between items-center">
             <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
