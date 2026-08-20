@@ -1,5 +1,5 @@
 // types/poker.ts
-export type Theme = 'navy' | 'dark' | 'light';
+export type Theme = 'navy' | 'light';
 
 export interface TournamentConfig {
   startBB: number;

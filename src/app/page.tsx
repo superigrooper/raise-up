@@ -23,8 +23,8 @@ export default function Home() {
   if (!isMounted) return null;
 
   const getThemeClass = () => {
-    if (theme === 'dark') return 'dark bg-[#0f0f1b] text-white';
-    if (theme === 'navy') return 'dark navy bg-[#090916] text-white';
+    // if (theme === 'dark') return 'dark bg-[#0f0f1b] text-white';
+    if (theme === 'navy') return 'navy bg-[#090916] text-white';
     return 'bg-gray-100 text-gray-900';
   };
 
