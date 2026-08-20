@@ -104,10 +104,8 @@ export const usePokerStore = create<PokerStore>()(
           }
 
           const sb = currentBB === 5 ? 2 : currentBB / 2;
-          const ante = config.useAnte && currentBB >= config.anteStartBB 
-          ? 
-          currentBB : 
-          0;
+          const ante =
+            config.useAnte && currentBB >= config.anteStartBB ? currentBB : 0;
 
           tempGrid.push({
             isBreak: false,
@@ -171,7 +169,7 @@ export const usePokerStore = create<PokerStore>()(
           });
         } else {
           // Если турнир кончился — пауза
-          set({ isPaused: true }); 
+          set({ isPaused: true });
         }
       },
 
