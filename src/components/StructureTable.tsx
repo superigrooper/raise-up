@@ -3,6 +3,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { usePokerStore } from "@/store/usePokerStore";
+import { TournamentRow } from "@/types/poker";
 
 export const StructureTable: React.FC = () => {
   const { grid, currentIndex } = usePokerStore();
@@ -30,7 +31,7 @@ export const StructureTable: React.FC = () => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200 dark:divide-gray-900/50 navy:divide-slate-900/50">
-          {grid.map((row, index) => {
+          {grid.map((row: TournamentRow, index: number) => {
             const isActive = index === currentIndex;
             return (
               <tr
