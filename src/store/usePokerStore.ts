@@ -297,6 +297,17 @@ export const usePokerStore = create<any>()(
           };
         });
       },
+      // Вставить внутрь usePokerStore в файле src/store/usePokerStore.ts:
+
+      resetCustomGrid: () => {
+        set({
+          isCustomGrid: false,
+          currentIndex: 0,
+          isPaused: true,
+        });
+        // Вызываем базовую генерацию турнира по стандартным правилам пресета
+        get().buildTournament();
+      },
     }),
     {
       name: "poker-timer-v26",

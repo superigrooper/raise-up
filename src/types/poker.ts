@@ -58,4 +58,5 @@ export interface PokerStore {
   // addCustomRow: (isBreak: boolean) => void;
   insertCustomRow: (index: number, isBreak: boolean) => void;
   removeCustomRow: (index: number) => void;
+  resetCustomGrid: () => void;
 }

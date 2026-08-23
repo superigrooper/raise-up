@@ -14,9 +14,11 @@ export default function StructureConstructor() {
     totalDurationStr,
     theme,
     config,
+    resetCustomGrid,
   } = usePokerStore();
   const _hasHydrated = usePokerStore((state) => state._hasHydrated);
   const [isClient, setIsClient] = useState(false);
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -25,7 +27,7 @@ export default function StructureConstructor() {
     }
   }, []);
 
-   const getThemeClass = () => {
+  const getThemeClass = () => {
     if (theme === "navy") return "navy bg-[#090916] text-white";
     return "bg-gray-100 text-gray-900";
   };
@@ -74,11 +76,20 @@ export default function StructureConstructor() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                resetCustomGrid();
+              }}
+              className="px-3.5 py-2 border border-gray-300 dark:border-gray-700 navy:border-slate-700 text-gray-500 hover:text-[#e94560] hover:border-[#e94560] font-bold text-xs rounded-xl transition-all cursor-pointer bg-transparent"
+              title="Сбросить таблицу к исходному шаблону пресета"
+            >
+              🧹 Сбросить
+            </button>
             <Link
               href="/timer"
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors text-center cursor-pointer"
             >
-              💾 Сохранить и к таймеру
+              💾 Сохранить
             </Link>
           </div>
         </header>
