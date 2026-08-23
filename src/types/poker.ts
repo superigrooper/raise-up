@@ -1,5 +1,4 @@
-// types/poker.ts
-export type Theme = "navy" | "light";
+export type Theme = 'navy' | 'light';
 
 export interface TournamentConfig {
   startBB: number;
@@ -8,6 +7,7 @@ export interface TournamentConfig {
   anteStartBB: number;
   breakEvery: number;
   breakDuration: number;
+  warningTime: number;
 }
 
 export interface TournamentPreset {
@@ -34,17 +34,16 @@ export interface PokerStore {
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  // totalDurationStr: string;
+  totalDurationStr: string;
   theme: Theme;
-
-  setConfigValue: (
-    key: keyof TournamentConfig,
-    value: number | boolean,
-  ) => void;
+  _hasHydrated: boolean;
+  
+  setConfigValue: (key: keyof TournamentConfig, value: number | boolean) => void;
   selectPreset: (presetId: string) => void;
   buildTournament: () => void;
   setIsPaused: (paused: boolean) => void;
   setSecondsLeft: (seconds: number | ((prev: number) => number)) => void;
   nextLevel: () => void;
   setTheme: (theme: Theme) => void;
+  setHasHydrated: (state: boolean) => void;
 }
