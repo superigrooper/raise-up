@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { usePokerStore } from "@/store/usePokerStore";
+import Link from "next/link";
 
 export const ConfigForm: React.FC = () => {
   const {
@@ -17,16 +18,25 @@ export const ConfigForm: React.FC = () => {
   return (
     <div className="p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 navy:border-slate-800 bg-white dark:bg-[#161625] navy:bg-[#121224]">
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 navy:text-slate-500">
-          Формат турнира
-        </h3>
-        <button
-          onClick={() => setIsCustomOpen(!isCustomOpen)}
-          className="text-xs font-semibold text-[#e94560] hover:text-[#ff5270] transition-colors cursor-pointer"
-        >
-          {isCustomOpen ? "⚙️ Скрыть настройки" : "⚙️ Своя структура"}
-        </button>
-      </div>
+  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 navy:text-slate-500">
+    Формат турнира
+  </h3>
+  <div className="flex gap-3">
+    {/* Ссылка на отдельную страницу расширенного конструктора */}
+    <Link 
+      href="/timer/constructor" 
+      className="text-xs font-semibold text-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer"
+    >
+      🛠️ Продвинутый конструктор
+    </Link>
+    <button
+      onClick={() => setIsCustomOpen(!isCustomOpen)}
+      className="text-xs font-semibold text-[#e94560] hover:text-[#ff5270] transition-colors cursor-pointer"
+    >
+      {isCustomOpen ? '⚙️ Скрыть настройки' : '⚙️ Быстрые параметры'}
+    </button>
+  </div>
+</div>
 
       <div className="grid grid-cols-3 gap-3 mb-1">
         {presets.map((preset: any) => (
