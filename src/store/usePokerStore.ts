@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
+  PokerStore,
   TournamentRow,
   TournamentPreset,
   TournamentConfig,
@@ -22,6 +23,7 @@ const calculateTotalDurationStr = (grid: TournamentRow[]): string => {
   return `${h} ч. ${m} мин.`;
 };
 
+// Генератор стандартной жесткой сетки блайндов для дефолтных пресетов
 function generateBlindsGrid(config: TournamentConfig): {
   tempGrid: TournamentRow[];
   totalMinutes: number;
@@ -132,16 +134,17 @@ export const usePokerStore = create<any>()(
       totalDurationStr: "0 ч. 0 мин.",
       theme: "navy",
       _hasHydrated: false,
-      isCustomGrid: false, // Изначально выключен
+      isCustomGrid: false,
 
       setConfigValue: (key: any, value: any) => {
         set((state: any) => ({
           config: { ...state.config, [key]: value },
           activePresetId: "custom",
-          isCustomGrid: false, // Сбрасываем кастомную сетку, если крутят обычные ползунки
+          isCustomGrid: false,
         }));
         get().buildTournament();
       },
+
       selectPreset: (presetId: string) => {
         const preset = get().presets.find((p: any) => p.id === presetId);
         if (preset) {
@@ -153,10 +156,11 @@ export const usePokerStore = create<any>()(
           get().buildTournament();
         }
       },
+
       buildTournament: () => {
         const { config, isCustomGrid, grid } = get();
 
-        // Если активирован режим ручного конструктора — не перезаписываем сетку
+        // Если используется кастомная сетка, пересчитываем только тайминги
         if (isCustomGrid) {
           set({
             currentIndex: 0,
@@ -178,6 +182,7 @@ export const usePokerStore = create<any>()(
           totalDurationStr: `${h} ч. ${m} мин.`,
         });
       },
+
       setIsPaused: (paused: boolean) => set({ isPaused: paused }),
       setSecondsLeft: (seconds: any) =>
         set((state: any) => ({
@@ -186,6 +191,7 @@ export const usePokerStore = create<any>()(
               ? seconds(state.secondsLeft)
               : seconds,
         })),
+
       nextLevel: () => {
         const { currentIndex, grid } = get();
         const nextIndex = currentIndex + 1;
@@ -199,42 +205,29 @@ export const usePokerStore = create<any>()(
           set({ isPaused: true });
         }
       },
+
       setTheme: (theme: any) => set({ theme }),
       setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
 
-      // РЕАЛИЗАЦИЯ НОВЫХ ЭКШЕНОВ КОНСТРУКТОРА
-      setCustomGrid: (newGrid: TournamentRow[]) => {
-        set({ grid: newGrid, isCustomGrid: true, activePresetId: "custom" });
-        get().buildTournament();
-      },
-      updateCustomRow: (index: number, fields: Partial<TournamentRow>) => {
-        set((state: any) => {
-          const updatedGrid = [...state.grid];
-          updatedGrid[index] = { ...updatedGrid[index], ...fields };
-
-          // Корректируем малый блайнд автоматически при ручном изменении ББ (кроме исключения ББ 5)
-          if (fields.bb !== undefined && typeof fields.bb === "number") {
-            updatedGrid[index].sb = fields.bb === 5 ? 2 : fields.bb / 2;
-          }
-
-          return {
-            grid: updatedGrid,
-            isCustomGrid: true,
-            totalDurationStr: calculateTotalDurationStr(updatedGrid),
+      // Вспомогательный метод для автоматического пересчета сквозной нумерации уровней
+      reindexGrid: (updatedGrid: TournamentRow[]) => {
+        let gameCounter = 1;
+        return updatedGrid.map((row: any) => {
+          if (row.isBreak) return row;
+          const r = {
+            ...row,
+            levelNum: gameCounter,
+            labelText: `Уровень ${gameCounter}`,
           };
+          gameCounter++;
+          return r;
         });
       },
-      addCustomRow: (isBreak: boolean) => {
+
+      // УНИВЕРСАЛЬНЫЙ ЭКШЕН КОНТЕКСТНОЙ ВСТАВКИ В ЛЮБОЕ МЕСТО ТАБЛИЦЫ
+      insertCustomRow: (index: number, isBreak: boolean) => {
         set((state: any) => {
           const updatedGrid = [...state.grid];
-
-          // Высчитываем номер следующего игрового уровня
-          const lastGameLevel = [...updatedGrid]
-            .reverse()
-            .find((r) => !r.isBreak);
-          const nextNum = lastGameLevel
-            ? (Number(lastGameLevel.levelNum) || 0) + 1
-            : 1;
 
           const newRow: TournamentRow = isBreak
             ? {
@@ -248,40 +241,19 @@ export const usePokerStore = create<any>()(
               }
             : {
                 isBreak: false,
-                levelNum: nextNum,
-                labelText: `Уровень ${nextNum}`,
+                levelNum: 1,
+                labelText: "Уровень",
                 sb: 100,
                 bb: 200,
                 ante: 0,
                 duration: 15,
               };
 
-          updatedGrid.push(newRow);
-          return {
-            grid: updatedGrid,
-            isCustomGrid: true,
-            totalDurationStr: calculateTotalDurationStr(updatedGrid),
-          };
-        });
-      },
-      removeCustomRow: (index: number) => {
-        set((state: any) => {
-          const updatedGrid = state.grid.filter(
-            (_: any, i: number) => i !== index,
-          );
+          // Вставляем новую плашку по указанному индексу
+          updatedGrid.splice(index, 0, newRow);
 
-          // Пересчитываем нумерацию уровней с самого начала, чтобы не ломался порядок
-          let gameCounter = 1;
-          const normalGrid = updatedGrid.map((row: any) => {
-            if (row.isBreak) return row;
-            const r = {
-              ...row,
-              levelNum: gameCounter,
-              labelText: `Уровень ${gameCounter}`,
-            };
-            gameCounter++;
-            return r;
-          });
+          // Перестраиваем нумерацию "Уровень 1, 2, 3..." с самого начала
+          const normalGrid = get().reindexGrid(updatedGrid);
 
           return {
             grid: normalGrid,
@@ -290,9 +262,44 @@ export const usePokerStore = create<any>()(
           };
         });
       },
+
+      removeCustomRow: (index: number) => {
+        set((state: any) => {
+          const updatedGrid = state.grid.filter(
+            (_: any, i: number) => i !== index,
+          );
+
+          // Восстанавливаем сквозную нумерацию уровней после удаления
+          const normalGrid = get().reindexGrid(updatedGrid);
+
+          return {
+            grid: normalGrid,
+            isCustomGrid: true,
+            totalDurationStr: calculateTotalDurationStr(normalGrid),
+          };
+        });
+      },
+
+      updateCustomRow: (index: number, fields: Partial<TournamentRow>) => {
+        set((state: any) => {
+          const updatedGrid = [...state.grid];
+          updatedGrid[index] = { ...updatedGrid[index], ...fields };
+
+          // Автоматический пересчет Малого блайнда при ручном изменении Большого
+          if (fields.bb !== undefined && typeof fields.bb === "number") {
+            updatedGrid[index].sb = fields.bb === 5 ? 2 : fields.bb / 2;
+          }
+
+          return {
+            grid: updatedGrid,
+            isCustomGrid: true,
+            totalDurationStr: calculateTotalDurationStr(updatedGrid),
+          };
+        });
+      },
     }),
     {
-      name: "poker-timer-v26", // Новая версия кэша для безопасной инициализации структуры
+      name: "poker-timer-v26",
       skipHydration: true,
     },
   ),

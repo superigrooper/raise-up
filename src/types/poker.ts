@@ -55,6 +55,7 @@ export interface PokerStore {
   // НОВЫЕ ЭКШЕНЫ ДЛЯ РУЧНОГО КОНСТРУКТОРА
   setCustomGrid: (newGrid: TournamentRow[]) => void;
   updateCustomRow: (index: number, fields: Partial<TournamentRow>) => void;
-  addCustomRow: (isBreak: boolean) => void;
+  // addCustomRow: (isBreak: boolean) => void;
+  insertCustomRow: (index: number, isBreak: boolean) => void;
   removeCustomRow: (index: number) => void;
 }
