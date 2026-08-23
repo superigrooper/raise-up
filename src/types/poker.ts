@@ -1,3 +1,4 @@
+// src/types/poker.ts
 export type Theme = 'navy' | 'light';
 
 export interface TournamentConfig {
@@ -37,6 +38,7 @@ export interface PokerStore {
   totalDurationStr: string;
   theme: Theme;
   _hasHydrated: boolean;
+  isCustomGrid: boolean; // Флаг: используется ли созданная вручную структура
   
   setConfigValue: (key: keyof TournamentConfig, value: number | boolean) => void;
   selectPreset: (presetId: string) => void;
@@ -46,4 +48,10 @@ export interface PokerStore {
   nextLevel: () => void;
   setTheme: (theme: Theme) => void;
   setHasHydrated: (state: boolean) => void;
+  
+  // НОВЫЕ ЭКШЕНЫ ДЛЯ РУЧНОГО КОНСТРУКТОРА
+  setCustomGrid: (newGrid: TournamentRow[]) => void;
+  updateCustomRow: (index: number, fields: Partial<TournamentRow>) => void;
+  addCustomRow: (isBreak: boolean) => void;
+  removeCustomRow: (index: number) => void;
 }
