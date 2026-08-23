@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import { TournamentRow } from "@/types/poker";
 
 export default function StructureConstructor() {
   const {
@@ -16,15 +17,21 @@ export default function StructureConstructor() {
     config,
     resetCustomGrid,
   } = usePokerStore();
-  const _hasHydrated = usePokerStore((state) => state._hasHydrated);
-  const [isClient, setIsClient] = useState(false);
-  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
+
+  const [activeMobileMenuIndex, setActiveMobileMenuIndex] = useState<
+    number | null
+  >(null);
 
   useEffect(() => {
-    setIsClient(true);
     if (usePokerStore.getState().grid.length === 0) {
       usePokerStore.getState().buildTournament();
     }
+  }, []);
+  // СЛУШАТЕЛЬ ДЛЯ ЗАКРЫТИЯ МОБИЛЬНОГО МЕНЮ ПРИ КЛИКЕ МИМО НЕГО
+  useEffect(() => {
+    const handleOutsideClick = () => setActiveMobileMenuIndex(null);
+    window.addEventListener("click", handleOutsideClick);
+    return () => window.removeEventListener("click", handleOutsideClick);
   }, []);
 
   const getThemeClass = () => {
@@ -33,31 +40,71 @@ export default function StructureConstructor() {
   };
 
   // Визуальный разделитель с кнопками для вклинивания раундов в середину таблицы
-  const InsertionBar = ({ index }: { index: number }) => (
-    <div className="relative group h-4 flex items-center justify-center -my-2 z-10">
-      {/* Тонкая неоновая линия, которая всплывает при наведении */}
-      <div className="absolute inset-x-4 h-[2px] bg-gradient-to-r from-transparent via-[#e94560]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
-      {/* Контекстные мини-кнопки вставки */}
-      <div className="opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all flex gap-2 bg-white dark:bg-[#161625] navy:bg-[#121224] px-3 py-1 rounded-full shadow-md border border-gray-200 dark:border-gray-800 navy:border-slate-800">
+  const InsertionBar = ({ index }: { index: number }) => {
+    const isOpen = activeMobileMenuIndex === index;
+    return (
+      <div className="relative h-6 flex items-center justify-center -my-3 z-20">
+        {/* Десктопная линия (включается по hover) */}
+        <div className="absolute inset-x-4 h-[2px] bg-gradient-to-r from-transparent via-[#e94560]/30 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+        {/* Мобильная кнопка-плюс (видна только на тач-скринах) */}
         <button
-          onClick={() => insertCustomRow(index, false)}
-          className="text-[10px] font-black uppercase text-emerald-500 hover:text-emerald-400 cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation();
+            setActiveMobileMenuIndex(isOpen ? null : index);
+          }}
+          className={`md:hidden w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs shadow transition-all cursor-pointer ${isOpen ? "bg-[#e94560] text-white rotate-45" : "bg-white dark:bg-[#161625] navy:bg-[#121224] text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-gray-800 navy:border-slate-800"}`}
         >
-          ➕ Уровень
+          ＋
         </button>
-        <span className="text-gray-300 dark:text-gray-700 text-[10px] select-none">
-          |
-        </span>
-        <button
-          onClick={() => insertCustomRow(index, true)}
-          className="text-[10px] font-black uppercase text-amber-500 hover:text-amber-400 cursor-pointer"
-        >
-          ➕ Перерыв
-        </button>
+
+        {/* Десктопное меню для мыши */}
+        <div className="hidden md:flex opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all gap-2 bg-white dark:bg-[#161625] navy:bg-[#121224] px-3 py-1 rounded-full shadow-md border border-gray-200 dark:border-gray-800 navy:border-slate-800">
+          <button
+            onClick={() => insertCustomRow(index, false)}
+            className="text-[10px] font-black uppercase text-emerald-500 hover:text-emerald-400 cursor-pointer"
+          >
+            ➕ Уровень
+          </button>
+          <span className="text-gray-300 dark:text-gray-700 text-[10px] select-none">
+            |
+          </span>
+          <button
+            onClick={() => insertCustomRow(index, true)}
+            className="text-[10px] font-black uppercase text-amber-500 hover:text-amber-400 cursor-pointer"
+          >
+            ➕ Перерыв
+          </button>
+        </div>
+
+        {/* Выпадающее меню для пальцев (мобильный попап) */}
+        {isOpen && (
+          <div className="absolute top-6 bg-white dark:bg-[#161625] navy:bg-[#121224] py-1.5 px-2 rounded-xl shadow-xl border border-gray-200 dark:border-gray-800 navy:border-slate-800 flex gap-4 z-30">
+            <button
+              onClick={() => {
+                insertCustomRow(index, false);
+                setActiveMobileMenuIndex(null);
+              }}
+              className="text-xs font-bold text-emerald-500 flex items-center gap-1 cursor-pointer"
+            >
+              🟢 + Уровень
+            </button>
+            <span className="text-gray-200 dark:text-gray-800">|</span>
+            <button
+              onClick={() => {
+                insertCustomRow(index, true);
+                setActiveMobileMenuIndex(null);
+              }}
+              className="text-xs font-bold text-amber-500 flex items-center gap-1 cursor-pointer"
+            >
+              🟡 + Перерыв
+            </button>
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div
@@ -113,8 +160,8 @@ export default function StructureConstructor() {
           {/* Нулевая точка вставки (перед самым первым элементом) */}
           <InsertionBar index={0} />
 
-          {grid.map((row: any, index: number) => (
-            <div key={index} className="space-y-1">
+          {grid.map((row: TournamentRow, index: number) => (
+            <div key={index} className="group space-y-1">
               <div
                 className={`p-3 rounded-xl border flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 transition-colors ${
                   row.isBreak
@@ -124,10 +171,7 @@ export default function StructureConstructor() {
               >
                 {/* Метка */}
                 <div className="flex items-center gap-2 min-w-[100px]">
-                  <span className="text-xs font-bold opacity-40">
-                    #{index + 1}
-                  </span>
-                  <span className="text-xs font-black uppercase bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 px-2 py-1 rounded-md text-gray-700 dark:text-gray-300 navy:text-slate-300 truncate max-w-[90px]">
+                  <span className="text-xs font-black uppercase bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 px-2 py-1 rounded-md text-gray-700 dark:text-gray-300 navy:text-slate-300 truncate ">
                     {row.labelText}
                   </span>
                 </div>
@@ -136,7 +180,7 @@ export default function StructureConstructor() {
                 <div className="flex flex-wrap items-center gap-3 flex-1 justify-start lg:justify-end">
                   {row.isBreak ? (
                     <div className="text-xs font-bold text-amber-500/80 uppercase tracking-wider flex-1">
-                      ☕ Перерыв — Игроки отдыхают от ставок
+                      ☕ Перерыв
                     </div>
                   ) : (
                     <>
@@ -227,7 +271,7 @@ export default function StructureConstructor() {
             onClick={() => insertCustomRow(grid.length, true)}
             className="flex-1 py-3 bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 border border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-700 dark:text-gray-300 navy:text-slate-300 hover:border-amber-500 hover:text-amber-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
           >
-            ➕ Перерыв в конец списка{" "}
+            ➕ Перерыв в конец списка
           </button>
         </footer>
       </div>
