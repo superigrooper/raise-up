@@ -10,17 +10,6 @@ const BLINDS_STRING =
   "2 4 5 10 20 30 40 50 60 80 100 150 200 250 300 400 500 600 800 1000 1200 1400 1600 2000 2500 3000 4000 5000 6000 8000 10000 12000 15000 20000 25000 30000 40000 50000 60000 80000 100000 120000 150000 200000 300000 400000 500000 600000 800000 1000000";
 const HARD_BLINDS_STRUCTURE: number[] = BLINDS_STRING.split(" ").map(Number);
 
-// Вспомогательная функция для расчета общей длины турнира в часах и минутах
-const calculateTotalDurationStr = (grid: TournamentRow[]): string => {
-  const totalMinutes = grid.reduce(
-    (sum, row) => sum + (Number(row.duration) || 0),
-    0,
-  );
-  const h = Math.floor(totalMinutes / 60);
-  const m = totalMinutes % 60;
-  return `${h} ч. ${m} мин.`;
-};
-
 // Генератор стандартной жесткой сетки блайндов для дефолтных пресетов
 function generateBlindsGrid(config: TournamentConfig): {
   tempGrid: TournamentRow[];
@@ -124,7 +113,6 @@ export const usePokerStore = create<any>()(
             currentIndex: 0,
             isPaused: true,
             secondsLeft: grid.length > 0 ? Number(grid.duration) * 60 : 0,
-            totalDurationStr: calculateTotalDurationStr(grid),
           });
           return;
         }
@@ -216,7 +204,6 @@ export const usePokerStore = create<any>()(
           return {
             grid: normalGrid,
             isCustomGrid: true,
-            totalDurationStr: calculateTotalDurationStr(normalGrid),
           };
         });
       },
@@ -233,7 +220,6 @@ export const usePokerStore = create<any>()(
           return {
             grid: normalGrid,
             isCustomGrid: true,
-            totalDurationStr: calculateTotalDurationStr(normalGrid),
           };
         });
       },
@@ -251,7 +237,6 @@ export const usePokerStore = create<any>()(
           return {
             grid: updatedGrid,
             isCustomGrid: true,
-            totalDurationStr: calculateTotalDurationStr(updatedGrid),
           };
         });
       },
