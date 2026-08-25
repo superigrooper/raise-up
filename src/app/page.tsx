@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link"; 
 import { usePokerStore } from "@/store/usePokerStore";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function MainMenu() {
   const [isMounted, setIsMounted] = useState(false);
@@ -62,9 +63,7 @@ export default function MainMenu() {
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass()}`}
     >
       <div className="w-full max-w-4xl">
-      
         <Header/>
-
         <main className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {menuItems.map((item, index) => (
             <Link
@@ -86,12 +85,7 @@ export default function MainMenu() {
             </Link>
           ))}
         </main>
-
-        <footer className="mt-12 text-center text-[10px] tracking-wider uppercase text-gray-400 dark:text-gray-600 navy:text-slate-600 font-medium select-none">
-          <span>RAISE-UP</span>
-          <span className="mx-2">•</span>
-          <span>v {process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0"}</span>
-        </footer>
+        <Footer/>
       </div>
     </div>
   );
