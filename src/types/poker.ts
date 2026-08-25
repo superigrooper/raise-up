@@ -1,4 +1,3 @@
-// src/types/poker.ts
 export type Theme = "navy" | "light";
 
 export interface TournamentConfig {
