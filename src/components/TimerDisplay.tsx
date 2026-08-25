@@ -17,7 +17,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
     currentIndex,
     secondsLeft,
     isPaused,
-    totalDurationStr,
     config,
     setIsPaused,
     setSecondsLeft,
@@ -187,12 +186,6 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
             className={`text-gray-900 dark:text-white navy:text-slate-200 font-extrabold transition-all ${isTheaterMode ? "text-3xl tracking-tight text-[#e94560]" : "text-xl"}`}
           >
             {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
-          </span>
-        </div>
-        <div className="flex justify-between items-center px-3 text-xs">
-          <span className="opacity-80">Общая длина всей сетки:</span>
-          <span className="text-gray-800 dark:text-gray-300 navy:text-slate-300 font-semibold">
-            {totalDurationStr}
           </span>
         </div>
       </div>

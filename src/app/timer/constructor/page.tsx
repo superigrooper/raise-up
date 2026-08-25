@@ -12,7 +12,6 @@ export default function StructureConstructor() {
     updateCustomRow,
     insertCustomRow,
     removeCustomRow,
-    totalDurationStr,
     theme,
     config,
     resetCustomGrid,
@@ -148,10 +147,6 @@ export default function StructureConstructor() {
             <strong className="text-gray-900 dark:text-white navy:text-slate-100">
               {grid.length}
             </strong>
-          </span>
-          <span>
-            Общая длина турнира:{" "}
-            <strong className="text-[#e94560]">{totalDurationStr}</strong>
           </span>
         </div>
 

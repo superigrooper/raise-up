@@ -8,7 +8,6 @@ export interface TournamentConfig {
   anteStartBB: number;
   breakEvery: number;
   breakDuration: number;
-  warningTime: number;
 }
 
 export interface TournamentPreset {
@@ -35,7 +34,6 @@ export interface PokerStore {
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  totalDurationStr: string;
   theme: Theme;
   _hasHydrated: boolean;
   isCustomGrid: boolean; // Флаг: используется ли созданная вручную структура
