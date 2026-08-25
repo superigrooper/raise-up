@@ -9,58 +9,73 @@ export interface TournamentConfig {
   breakDuration: number;
 }
 
-export interface TournamentPreset {
+export interface TournamentRow {
+  isBreak: boolean;
+  levelNum: number | "—";
+  labelText: string;
+  sb: number | "—";
+  bb: number | "—";
+  ante: number | "—";
+  duration: number;
+}
+
+export interface Preset {
   id: string;
   name: string;
   config: TournamentConfig;
 }
 
-export interface TournamentRow {
-  isBreak: boolean;
-  levelNum: number | string;
-  labelText: string;
-  sb: number | string;
-  bb: number | string;
-  ante: number | string;
-  duration: number;
+export interface UseTimerOptions {
+  secondsLeft: number;
+  isPaused: boolean;
+  onTick: (seconds: number) => void;
+  onComplete: () => void;
 }
 
-export interface PokerStore {
+export interface PokerState {
+  // Данные
   config: TournamentConfig;
-  presets: TournamentPreset[];
+  presets: Preset[];
   activePresetId: string;
   grid: TournamentRow[];
+  isCustomGrid: boolean;
+
+  // Таймер
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  theme: Theme;
-  _hasHydrated: boolean;
-  isCustomGrid: boolean; // Флаг: используется ли созданная вручную структура
 
-  setConfigValue: (
-    key: keyof TournamentConfig,
-    value: number | boolean,
+  // UI
+  theme: string;
+  _hasHydrated: boolean;
+
+  // Конфиг
+  setConfigValue: <K extends keyof TournamentConfig>(
+    key: K,
+    value: TournamentConfig[K],
   ) => void;
   selectPreset: (presetId: string) => void;
   buildTournament: () => void;
+
+  // Таймер
   setIsPaused: (paused: boolean) => void;
   setSecondsLeft: (seconds: number | ((prev: number) => number)) => void;
-  nextLevel: () => void;
-  setTheme: (theme: Theme) => void;
-  setHasHydrated: (state: boolean) => void;
+  nextLevel: (auto?: boolean) => void;
 
-  // НОВЫЕ ЭКШЕНЫ ДЛЯ РУЧНОГО КОНСТРУКТОРА
-  setCustomGrid: (newGrid: TournamentRow[]) => void;
-  updateCustomRow: (index: number, fields: Partial<TournamentRow>) => void;
-  // addCustomRow: (isBreak: boolean) => void;
+  // Кастомная сетка
   insertCustomRow: (index: number, isBreak: boolean) => void;
   removeCustomRow: (index: number) => void;
+  updateCustomRow: (index: number, fields: Partial<TournamentRow>) => void;
   resetCustomGrid: () => void;
+
+  // UI
+  setTheme: (theme: string) => void;
+  setHasHydrated: (state: boolean) => void;
 }
 
 export interface Navigation {
-    title: string;
-    desc: string
-    path: string;
-    color: string;
+  title: string;
+  desc: string;
+  path: string;
+  color: string;
 }

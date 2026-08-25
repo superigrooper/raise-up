@@ -1,16 +1,16 @@
-import { TournamentPreset } from "@/types/poker";
+import { Preset } from "@/types/poker";
 
-export const defaultPresets: TournamentPreset[] = [
+export const defaultPresets: Preset[] = [
   {
     id: "regular",
     name: " Регулярный",
     config: {
       startBB: 2,
-      levelDuration: 20,
-      useAnte: true,
-      anteStartBB: 100,
-      breakEvery: 3,
-      breakDuration: 15,
+      levelDuration: 15,
+      useAnte: false,
+      anteStartBB: 200,
+      breakEvery: 4,
+      breakDuration: 10,
     },
   },
   {
@@ -18,11 +18,11 @@ export const defaultPresets: TournamentPreset[] = [
     name: "Турбо",
     config: {
       startBB: 10,
-      levelDuration: 15,
+      levelDuration: 10,
       useAnte: true,
-      anteStartBB: 60,
-      breakEvery: 4,
-      breakDuration: 15,
+      anteStartBB: 150,
+      breakEvery: 3,
+      breakDuration: 10,
     },
   },
   {
@@ -33,8 +33,20 @@ export const defaultPresets: TournamentPreset[] = [
       levelDuration: 5,
       useAnte: true,
       anteStartBB: 50,
-      breakEvery: 5,
+      breakEvery: 3,
       breakDuration: 5,
+    },
+  },
+  {
+    id: "hyper-turbo",
+    name: "Гипер-турбо",
+    config: {
+      startBB: 100,
+      levelDuration: 3,
+      useAnte: true,
+      anteStartBB: 100,
+      breakEvery: 3,
+      breakDuration: 3,
     },
   },
 ];

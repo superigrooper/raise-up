@@ -29,7 +29,7 @@ export default function generateBlindsGrid(config: TournamentConfig): {
 
     const sb = currentBB === 5 ? 2 : currentBB / 2;
     const ante =
-      config.useAnte && currentBB >= config.anteStartBB ? (currentBB * 0.1) : 0;
+      config.useAnte && currentBB >= config.anteStartBB ? currentBB * 0.1 : 0;
 
     tempGrid.push({
       isBreak: false,

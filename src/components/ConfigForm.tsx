@@ -1,8 +1,62 @@
+// src/components/ConfigForm.tsx
 "use client";
 
 import React, { useState } from "react";
-import { usePokerStore } from "@/store/usePokerStore";
 import Link from "next/link";
+import { usePokerStore } from "@/store/usePokerStore";
+import { TournamentConfig } from "@/types/poker";
+
+// ─── Вспомогательные компоненты ───────────────────────────────────────────────
+
+interface NumberFieldProps {
+  id: string;
+  label: string;
+  value: number;
+  min?: number;
+  onChange: (value: number) => void;
+}
+
+function NumberField({
+  id,
+  label,
+  value,
+  min = 0,
+  onChange,
+}: NumberFieldProps) {
+  return (
+    <div className="flex justify-between items-center">
+      <label
+        htmlFor={id}
+        className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400"
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        type="number"
+        min={min}
+        value={value}
+        onChange={(e) => onChange(parseInt(e.target.value, 10) || 0)}
+        className="
+          w-24 text-center py-1.5 px-3 rounded-md border outline-none
+          bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
+          border-gray-300 dark:border-gray-800 navy:border-slate-800
+          text-gray-900 dark:text-white navy:text-slate-100
+          focus:border-[#e94560] transition-colors"
+      />
+    </div>
+  );
+}
+
+// ─── Основной компонент ───────────────────────────────────────────────────────
+
+const INPUT_CLASS = `
+  w-24 text-center py-1.5 px-3 rounded-md border outline-none
+  bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
+  border-gray-300 dark:border-gray-800 navy:border-slate-800
+  text-gray-900 dark:text-white navy:text-slate-100
+  focus:border-[#e94560] transition-colors
+`;
 
 export const ConfigForm: React.FC = () => {
   const {
@@ -13,24 +67,48 @@ export const ConfigForm: React.FC = () => {
     activePresetId,
     selectPreset,
   } = usePokerStore();
+
   const [isCustomOpen, setIsCustomOpen] = useState(false);
 
+  // Типизированный хелпер — гарантирует, что ключ и значение совпадают
+  const handleChange = <K extends keyof TournamentConfig>(
+    key: K,
+    value: TournamentConfig[K],
+  ) => {
+    setConfigValue(key, value);
+  };
+
+  const handleApply = () => {
+    buildTournament();
+    setIsCustomOpen(false);
+  };
+
   return (
-    <div className="p-5 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 navy:border-slate-800 bg-white dark:bg-[#161625] navy:bg-[#121224]">
+    <div
+      className="
+      p-5 rounded-xl shadow-lg border
+      border-gray-200 dark:border-gray-800 navy:border-slate-800
+      bg-white dark:bg-[#161625] navy:bg-[#121224]"
+    >
+      {/* ── Шапка ── */}
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 navy:text-slate-500">
+        <h3
+          className="
+          text-xs font-bold uppercase tracking-wider
+          text-gray-400 dark:text-gray-500 navy:text-slate-500"
+        >
           Формат турнира
         </h3>
+
         <div className="flex gap-3">
-          {/* Ссылка на отдельную страницу расширенного конструктора */}
           <Link
             href="/timer/constructor"
-            className="text-xs font-semibold text-emerald-500 hover:text-emerald-400 transition-colors cursor-pointer"
+            className="text-xs font-semibold text-emerald-500 hover:text-emerald-400 transition-colors"
           >
             🛠️ Продвинутый конструктор
           </Link>
           <button
-            onClick={() => setIsCustomOpen(!isCustomOpen)}
+            onClick={() => setIsCustomOpen((prev) => !prev)}
             className="text-xs font-semibold text-[#e94560] hover:text-[#ff5270] transition-colors cursor-pointer"
           >
             {isCustomOpen ? "⚙️ Скрыть настройки" : "⚙️ Быстрые параметры"}
@@ -38,128 +116,112 @@ export const ConfigForm: React.FC = () => {
         </div>
       </div>
 
+      {/* ── Пресеты ── */}
       <div className="grid grid-cols-3 gap-3 mb-1">
-        {presets.map((preset: any) => (
-          <button
-            key={preset.id}
-            onClick={() => {
-              selectPreset(preset.id);
-              setIsCustomOpen(false);
-            }}
-            className={`py-3 px-4 text-xs font-bold rounded-lg border transition-all cursor-pointer truncate ${activePresetId === preset.id ? "bg-[#e94560] text-white border-[#e94560] shadow-md" : "bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] text-gray-600 dark:text-gray-400 navy:text-slate-400 border-gray-200 dark:border-gray-800 navy:border-slate-800 hover:border-gray-400 dark:hover:border-gray-700 navy:hover:border-slate-700"}`}
-          >
-            {preset.name}
-          </button>
-        ))}
+        {presets.map((preset) => {
+          const isActive = activePresetId === preset.id;
+          return (
+            <button
+              key={preset.id}
+              onClick={() => {
+                selectPreset(preset.id);
+                setIsCustomOpen(false);
+              }}
+              className={`
+                py-3 px-4 text-xs font-bold rounded-lg border
+                transition-all cursor-pointer truncate
+                ${
+                  isActive
+                    ? "bg-[#e94560] text-white border-[#e94560] shadow-md"
+                    : `bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
+                     text-gray-600 dark:text-gray-400 navy:text-slate-400
+                     border-gray-200 dark:border-gray-800 navy:border-slate-800
+                     hover:border-gray-400 dark:hover:border-gray-700 navy:hover:border-slate-700`
+                }`}
+            >
+              {preset.name}
+            </button>
+          );
+        })}
       </div>
 
+      {/* ── Раскрывающиеся настройки ── */}
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${isCustomOpen ? "max-h-[500px] mt-5 pt-4 border-t border-gray-100 dark:border-gray-900/50 navy:border-slate-900/50" : "max-h-0"}`}
+        className={`
+        transition-all duration-300 ease-in-out overflow-hidden
+        ${
+          isCustomOpen
+            ? "max-h-[500px] mt-5 pt-4 border-t border-gray-100 dark:border-gray-900/50 navy:border-slate-900/50"
+            : "max-h-0"
+        }`}
       >
         <div className="space-y-3.5 mb-5">
-          <div className="flex justify-between items-center">
-            <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-              Стартовый ББ:
-            </label>
-            <input
-              type="number"
-              value={config.startBB}
-              onChange={(e) =>
-                setConfigValue("startBB", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-              Время уровня (мин):
-            </label>
-            <input
-              type="number"
-              value={config.levelDuration}
-              onChange={(e) =>
-                setConfigValue("levelDuration", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
+          <NumberField
+            id="startBB"
+            label="Стартовый ББ:"
+            value={config.startBB}
+            min={1}
+            onChange={(v) => handleChange("startBB", v)}
+          />
+
+          <NumberField
+            id="levelDuration"
+            label="Время уровня (мин):"
+            value={config.levelDuration}
+            min={1}
+            onChange={(v) => handleChange("levelDuration", v)}
+          />
+
+          {/* Чекбокс Анте */}
           <div className="flex justify-between items-center py-1">
-            <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400 font-medium">
+            <label
+              htmlFor="useAnte"
+              className="text-sm font-medium text-gray-600 dark:text-gray-400 navy:text-slate-400"
+            >
               Использовать Анте (Ante):
             </label>
             <input
+              id="useAnte"
               type="checkbox"
               checked={config.useAnte}
-              onChange={(e) => setConfigValue("useAnte", e.target.checked)}
+              onChange={(e) => handleChange("useAnte", e.target.checked)}
               className="w-5 h-5 accent-[#e94560] cursor-pointer"
             />
           </div>
+
+          {/* Порог включения Анте — показываем только если Анте включено */}
           {config.useAnte && (
-            <div className="flex justify-between items-center">
-              <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-                Анте начиная с ББ &gt;=:
-              </label>
-              <input
-                type="number"
-                value={config.anteStartBB}
-                onChange={(e) =>
-                  setConfigValue("anteStartBB", parseFloat(e.target.value) || 0)
-                }
-                className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-              />
-            </div>
+            <NumberField
+              id="anteStartBB"
+              label="Анте начиная с ББ ≥:"
+              value={config.anteStartBB}
+              min={1}
+              onChange={(v) => handleChange("anteStartBB", v)}
+            />
           )}
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-                Предупреждение за (сек):
-              </label>
-              <span className="text-[10px] text-gray-400 dark:text-gray-500 navy:text-slate-500">
-                (0 — выключить)
-              </span>
-            </div>
-            <input
-              type="number"
-              value={config.warningTime}
-              onChange={(e) =>
-                setConfigValue("warningTime", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-              Перерыв каждые (ур):
-            </label>
-            <input
-              type="number"
-              value={config.breakEvery}
-              onChange={(e) =>
-                setConfigValue("breakEvery", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400">
-              Длина перерыва (мин):
-            </label>
-            <input
-              type="number"
-              value={config.breakDuration}
-              onChange={(e) =>
-                setConfigValue("breakDuration", parseFloat(e.target.value) || 0)
-              }
-              className="w-24 text-center py-1.5 px-3 rounded-md border outline-none bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-900 dark:text-white navy:text-slate-100 focus:border-[#e94560]"
-            />
-          </div>
+
+          <NumberField
+            id="breakEvery"
+            label="Перерыв каждые (ур):"
+            value={config.breakEvery}
+            min={1}
+            onChange={(v) => handleChange("breakEvery", v)}
+          />
+
+          <NumberField
+            id="breakDuration"
+            label="Длина перерыва (мин):"
+            value={config.breakDuration}
+            min={1}
+            onChange={(v) => handleChange("breakDuration", v)}
+          />
         </div>
+
         <button
-          onClick={() => {
-            buildTournament();
-            setIsCustomOpen(false);
-          }}
-          className="w-full py-3 bg-[#e94560] hover:bg-[#ff5270] text-white font-bold rounded-lg cursor-pointer text-sm"
+          onClick={handleApply}
+          className="
+            w-full py-3 font-bold rounded-lg cursor-pointer text-sm
+            bg-[#e94560] hover:bg-[#ff5270] text-white transition-colors"
         >
           Применить структуру
         </button>

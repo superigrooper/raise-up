@@ -1,53 +1,90 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { defaultPresets } from "@/lib/presets";
-import { TournamentRow } from "@/types/poker";
+import { TournamentRow, PokerState } from "@/types/poker";
 import generateBlindsGrid from "@/utils/generateBlindsGrid";
 
-export const usePokerStore = create<any>()(
+const CUSTOM_PRESET_ID = "custom" as const;
+const STORE_NAME = "poker-timer";
+const STORE_VERSION = 2;
+
+/**
+ * Пересчитывает SB:
+ * BB = 5 → SB = 2 (исключение, т.к. половина не целое)
+ * BB = любой другой → SB = BB / 2
+ */
+export const calcSbFromBb = (bb: number): number => (bb === 5 ? 2 : bb / 2);
+
+/**
+ * Восстанавливает сквозную нумерацию уровней (не перерывов).
+ */
+export const reindexGrid = (grid: TournamentRow[]): TournamentRow[] => {
+  let counter = 1;
+  return grid.map((row) => {
+    if (row.isBreak) return row;
+    const updated: TournamentRow = {
+      ...row,
+      levelNum: counter,
+      labelText: `Уровень ${counter}`,
+    };
+    counter++;
+    return updated;
+  });
+};
+
+export const usePokerStore = create<PokerState>()(
   persist(
     (set, get) => ({
+      // ── Начальное состояние ──
       config: { ...defaultPresets[0].config },
       presets: defaultPresets,
       activePresetId: defaultPresets[0].id,
       grid: [],
+      isCustomGrid: false,
       currentIndex: 0,
       secondsLeft: 0,
       isPaused: true,
-      theme: "navy",
+      theme: "light",
       _hasHydrated: false,
-      isCustomGrid: false,
 
-      setConfigValue: (key: any, value: any) => {
-        set((state: any) => ({
+      // ── Конфиг ──
+
+      setConfigValue: (key, value) => {
+        set((state) => ({
           config: { ...state.config, [key]: value },
-          activePresetId: "custom",
+          activePresetId: CUSTOM_PRESET_ID,
           isCustomGrid: false,
         }));
         get().buildTournament();
       },
 
-      selectPreset: (presetId: string) => {
-        const preset = get().presets.find((p: any) => p.id === presetId);
-        if (preset) {
-          set({
-            config: { ...preset.config },
-            activePresetId: presetId,
-            isCustomGrid: false,
-          });
-          get().buildTournament();
+      selectPreset: (presetId) => {
+        const preset = get().presets.find((p) => p.id === presetId);
+
+        if (!preset) {
+          console.warn(`[usePokerStore] Пресет с id="${presetId}" не найден`);
+          return;
         }
+
+        set({
+          config: { ...preset.config },
+          activePresetId: presetId,
+          isCustomGrid: false,
+        });
+        get().buildTournament();
       },
 
       buildTournament: () => {
         const { config, isCustomGrid, grid } = get();
 
-        // Если используется кастомная сетка, пересчитываем только тайминги
+        // Кастомная сетка: сбрасываем только позицию и таймер,
+        // структуру не трогаем
         if (isCustomGrid) {
           set({
             currentIndex: 0,
             isPaused: true,
-            secondsLeft: grid.length > 0 ? Number(grid.duration) * 60 : 0,
+            // Исправлен баг: grid[0].duration вместо grid.duration
+            secondsLeft: grid.length > 0 ? grid[0].duration * 60 : 0,
           });
           return;
         }
@@ -61,50 +98,42 @@ export const usePokerStore = create<any>()(
         });
       },
 
-      setIsPaused: (paused: boolean) => set({ isPaused: paused }),
-      setSecondsLeft: (seconds: any) =>
-        set((state: any) => ({
+      // ── Таймер ──
+
+      setIsPaused: (paused) => set({ isPaused: paused }),
+
+      setSecondsLeft: (seconds) =>
+        set((state) => ({
           secondsLeft:
             typeof seconds === "function"
               ? seconds(state.secondsLeft)
               : seconds,
         })),
 
-      nextLevel: () => {
+      /**
+       * auto=false — ручной переход (ставим на паузу)
+       * auto=true  — автопереход по таймеру (продолжаем играть)
+       */
+      nextLevel: (auto = false) => {
         const { currentIndex, grid } = get();
         const nextIndex = currentIndex + 1;
+
         if (nextIndex < grid.length) {
           set({
             currentIndex: nextIndex,
             secondsLeft: grid[nextIndex].duration * 60,
-            isPaused: true,
+            isPaused: !auto,
           });
         } else {
+          // Турнир завершён
           set({ isPaused: true });
         }
       },
 
-      setTheme: (theme: string) => set({ theme }),
-      setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
+      // ── Кастомная сетка ──
 
-      // Вспомогательный метод для автоматического пересчета сквозной нумерации уровней
-      reindexGrid: (updatedGrid: TournamentRow[]) => {
-        let gameCounter = 1;
-        return updatedGrid.map((row: TournamentRow) => {
-          if (row.isBreak) return row;
-          const r = {
-            ...row,
-            levelNum: gameCounter,
-            labelText: `Уровень ${gameCounter}`,
-          };
-          gameCounter++;
-          return r;
-        });
-      },
-
-      // УНИВЕРСАЛЬНЫЙ ЭКШЕН КОНТЕКСТНОЙ ВСТАВКИ В ЛЮБОЕ МЕСТО ТАБЛИЦЫ
-      insertCustomRow: (index: number, isBreak: boolean) => {
-        set((state: any) => {
+      insertCustomRow: (index, isBreak) => {
+        set((state) => {
           const updatedGrid = [...state.grid];
 
           const newRow: TournamentRow = isBreak
@@ -120,51 +149,45 @@ export const usePokerStore = create<any>()(
             : {
                 isBreak: false,
                 levelNum: 1,
-                labelText: "Уровень",
+                labelText: "Уровень 1",
                 sb: 100,
                 bb: 200,
                 ante: 0,
                 duration: 15,
               };
 
-          // Вставляем новую плашку по указанному индексу
           updatedGrid.splice(index, 0, newRow);
 
-          // Перестраиваем нумерацию "Уровень 1, 2, 3..." с самого начала
-          const normalGrid = get().reindexGrid(updatedGrid);
-
           return {
-            grid: normalGrid,
+            grid: reindexGrid(updatedGrid),
             isCustomGrid: true,
           };
         });
       },
 
-      removeCustomRow: (index: number) => {
-        set((state: any) => {
-          const updatedGrid = state.grid.filter(
-            (_: any, i: number) => i !== index,
-          );
-
-          // Восстанавливаем сквозную нумерацию уровней после удаления
-          const normalGrid = get().reindexGrid(updatedGrid);
-
+      removeCustomRow: (index) => {
+        set((state) => {
+          const updatedGrid = state.grid.filter((_, i) => i !== index);
           return {
-            grid: normalGrid,
+            grid: reindexGrid(updatedGrid),
             isCustomGrid: true,
           };
         });
       },
 
-      updateCustomRow: (index: number, fields: Partial<TournamentRow>) => {
-        set((state: any) => {
+      updateCustomRow: (index, fields) => {
+        set((state) => {
           const updatedGrid = [...state.grid];
-          updatedGrid[index] = { ...updatedGrid[index], ...fields };
+          const current = updatedGrid[index];
+          const updated: TournamentRow = { ...current, ...fields };
 
-          // Автоматический пересчет Малого блайнда при ручном изменении Большого
+          // Автопересчёт SB при изменении BB по правилам покера:
+          // BB=5 → SB=2, иначе SB = BB/2
           if (fields.bb !== undefined && typeof fields.bb === "number") {
-            updatedGrid[index].sb = fields.bb === 5 ? 2 : fields.bb / 2;
+            updated.sb = calcSbFromBb(fields.bb);
           }
+
+          updatedGrid[index] = updated;
 
           return {
             grid: updatedGrid,
@@ -172,7 +195,6 @@ export const usePokerStore = create<any>()(
           };
         });
       },
-      // Вставить внутрь usePokerStore в файле src/store/usePokerStore.ts:
 
       resetCustomGrid: () => {
         set({
@@ -180,13 +202,42 @@ export const usePokerStore = create<any>()(
           currentIndex: 0,
           isPaused: true,
         });
-        // Вызываем базовую генерацию турнира по стандартным правилам пресета
         get().buildTournament();
       },
+
+      // ── UI ──
+
+      setTheme: (theme) => set({ theme }),
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
+
     {
-      name: "poker-timer-v26",
-      skipHydration: true,
+      name: STORE_NAME,
+      version: STORE_VERSION,
+
+      // Сохраняем только конфигурационные данные.
+      // secondsLeft / isPaused / currentIndex не персистируем —
+      // при перезагрузке страницы таймер всегда стартует заново.
+      partialize: (state) => ({
+        config: state.config,
+        presets: state.presets,
+        activePresetId: state.activePresetId,
+        theme: state.theme,
+        grid: state.grid,
+        isCustomGrid: state.isCustomGrid,
+      }),
+
+      // Миграции при смене версии схемы
+      migrate: (persistedState, version) => {
+        console.info(
+          `[usePokerStore] Миграция с версии ${version} → ${STORE_VERSION}`,
+        );
+        return persistedState as PokerState;
+      },
+
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

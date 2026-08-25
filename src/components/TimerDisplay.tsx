@@ -1,14 +1,22 @@
+// src/components/TimerDisplay.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePokerStore } from "@/store/usePokerStore";
+import { TournamentRow } from "@/types/poker";
+import { useTimer } from "@/hooks/useTimer";
 
 interface TimerDisplayProps {
   isTheaterMode: boolean;
   onToggleTheater: () => void;
 }
 
-export function TimerDisplay({ isTheaterMode, onToggleTheater }: TimerDisplayProps) {
+// ─── Компонент ───────────────────────────────────────────────────────────────
+
+export function TimerDisplay({
+  isTheaterMode,
+  onToggleTheater,
+}: TimerDisplayProps) {
   const {
     grid,
     currentIndex,
@@ -19,7 +27,25 @@ export function TimerDisplay({ isTheaterMode, onToggleTheater }: TimerDisplayPro
     nextLevel,
   } = usePokerStore();
 
-  // Обработка клавиши Пробел для Паузы/Старта
+  // Стабильные refs для колбэков — не пересоздают интервал
+  const onTickRef = useRef(setSecondsLeft);
+  const onCompleteRef = useRef(() => nextLevel(true));
+
+  useEffect(() => {
+    onTickRef.current = setSecondsLeft;
+  }, [setSecondsLeft]);
+  useEffect(() => {
+    onCompleteRef.current = () => nextLevel(true);
+  }, [nextLevel]);
+
+  useTimer({
+    secondsLeft,
+    isPaused,
+    onTick: (s) => onTickRef.current(s),
+    onComplete: () => onCompleteRef.current(),
+  });
+
+  // Пробел → пауза/старт
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement) return;
@@ -32,27 +58,7 @@ export function TimerDisplay({ isTheaterMode, onToggleTheater }: TimerDisplayPro
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused, setIsPaused]);
 
-  // Эффект обратного отсчета секунд
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setSecondsLeft((prev: number) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isPaused, setSecondsLeft]);
-
-  // Эффект отслеживания завершения времени и перехода на следующий уровень
-  useEffect(() => {
-    if (secondsLeft === 0 && !isPaused) {
-      // Небольшой таймаут, чтобы дать стейту обновиться и избежать багов рендеринга
-      const timeout = setTimeout(() => {
-        nextLevel();
-      }, 0);
-      return () => clearTimeout(timeout);
-    }
-  }, [secondsLeft, isPaused, nextLevel]);
+  // ── Форматирование ──
 
   const formatTime = (totalSeconds: number): string => {
     const m = Math.floor(totalSeconds / 60)
@@ -62,173 +68,133 @@ export function TimerDisplay({ isTheaterMode, onToggleTheater }: TimerDisplayPro
     return `${m}:${s}`;
   };
 
-  const currentData = grid && grid[currentIndex];
-  if (!currentData)
+  // ── Данные текущего и следующего уровня ──
+
+  const currentData = grid[currentIndex] ?? null;
+
+  if (!currentData) {
     return (
-      <div className="
-      w-full 
-      p-6 
-      text-center 
-      text-gray-400 
-      bg-white 
-      dark:bg-[#161625] 
-      navy:bg-[#121224] 
-      rounded-xl 
-      border 
-      border-gray-800"
+      <div
+        className="
+        w-full p-6 text-center text-gray-400
+        bg-white dark:bg-[#161625] navy:bg-[#121224]
+        rounded-xl border border-gray-800"
       >
         Генерация сетки...
       </div>
     );
+  }
 
-  let nextGridIndex = currentIndex + 1;
-  if (grid[nextGridIndex] && grid[nextGridIndex].isBreak) nextGridIndex++;
-  const nextData = grid[nextGridIndex];
+  // Ищем следующий игровой уровень (пропускаем перерывы)
+  const getNextPlayingLevel = (): TournamentRow | null => {
+    for (let i = currentIndex + 1; i < grid.length; i++) {
+      if (!grid[i].isBreak) return grid[i];
+    }
+    return null;
+  };
+  const nextData = getNextPlayingLevel();
+
+  // ── Рендер ──
+
+  const theater = isTheaterMode;
 
   return (
-    <div className={`
-        p-6 
-        rounded-xl 
-        flex 
-        flex-col 
-        items-center 
-        shadow-lg 
-        border 
-        transition-all 
-        duration-300 
-        bg-white 
-        dark:bg-[#161625] 
-        navy:bg-[#121224] 
-        border-gray-200 
-        dark:border-gray-800 
-        navy:border-slate-800 
-        w-full 
-        ${isTheaterMode ? "py-12 px-10" : "py-6"}`}
+    <div
+      className={`
+      p-6 rounded-xl flex flex-col items-center shadow-lg border
+      transition-all duration-300
+      bg-white dark:bg-[#161625] navy:bg-[#121224]
+      border-gray-200 dark:border-gray-800 navy:border-slate-800
+      w-full ${theater ? "py-12 px-10" : "py-6"}`}
     >
-      <div className={`
-        font-bold 
-        tracking-widest 
-        text-gray-400 
-        dark:text-gray-500 
-        navy:text-slate-500 
-        uppercase 
-        ${isTheaterMode ? "text-xl tracking-[0.2em]" : "text-sm"}`}
+      {/* Заголовок уровня */}
+      <div
+        className={`
+        font-bold tracking-widest uppercase
+        text-gray-400 dark:text-gray-500 navy:text-slate-500
+        ${theater ? "text-xl tracking-[0.2em]" : "text-sm"}`}
       >
         {currentData.isBreak
           ? "⏱️ СЕЙЧАС ПЕРЕРЫВ"
           : `🎯 Уровень ${currentData.levelNum}`}
       </div>
-      <div className={`
-        font-extrabold 
-        my-4 
-        tracking-tight 
-        text-gray-900 
-        dark:text-white 
-        navy:text-slate-100 
-        transition-all 
-        text-center 
-        leading-none 
-        ${isTheaterMode ? "text-6xl sm:text-7xl lg:text-8xl my-6" : "text-4xl md:text-5xl"}`}
+
+      {/* Блайнды / ОТДЫХ */}
+      <div
+        className={`
+        font-extrabold my-4 tracking-tight leading-none text-center
+        text-gray-900 dark:text-white navy:text-slate-100
+        ${theater ? "text-6xl sm:text-7xl lg:text-8xl my-6" : "text-4xl md:text-5xl"}`}
       >
         {currentData.isBreak
           ? "ОТДЫХ"
           : `${currentData.sb} / ${currentData.bb}`}
       </div>
-      <div className={`
-        text-yellow-600 
-        dark:text-yellow-500 
-        navy:text-amber-500 
-        font-semibold 
-        min-h-[24px] 
-        ${isTheaterMode ? "text-2xl mb-12" : "text-base mb-6"}`}
+
+      {/* Анте / Длительность перерыва */}
+      <div
+        className={`
+        text-yellow-600 dark:text-yellow-500 navy:text-amber-500
+        font-semibold min-h-[24px]
+        ${theater ? "text-2xl mb-12" : "text-base mb-6"}`}
       >
         {currentData.isBreak
           ? `Длительность: ${currentData.duration} мин`
           : typeof currentData.ante === "number" && currentData.ante > 0
-            ? `Анте (ББ Ante): ${currentData.ante}`
+            ? `Анте (BB Ante): ${currentData.ante}`
             : "Без анте"}
       </div>
 
-      <div className={`
-        font-mono 
-        text-[#e94560] 
-        drop-shadow-[0_0_35px_rgba(233,69,96,0.4)] 
-        font-black 
-        select-none 
-        transition-all 
-        leading-none 
-        ${isTheaterMode ? "text-9xl sm:text-[12rem] lg:text-[15rem] mb-12" : "text-7xl md:text-8xl mb-6"}`}
+      {/* Таймер */}
+      <div
+        className={`
+        font-mono text-[#e94560] font-black select-none leading-none
+        drop-shadow-[0_0_35px_rgba(233,69,96,0.4)]
+        transition-all
+        ${theater ? "text-9xl sm:text-[12rem] lg:text-[15rem] mb-12" : "text-7xl md:text-8xl mb-6"}`}
       >
         {formatTime(secondsLeft)}
       </div>
 
-      <div className={`
-        flex 
-        gap-4 
-        w-full 
-        ${isTheaterMode ? "max-w-2xl" : "max-w-xl"}`}
+      {/* Кнопки управления */}
+      <div
+        className={`flex gap-4 w-full ${theater ? "max-w-2xl" : "max-w-xl"}`}
       >
-        <button className={`
-          flex-1 
-          py-4 
-          font-bold 
-          rounded-xl 
-          transition-colors 
-          text-sm 
-          md:text-base 
-          uppercase 
-          tracking-wider 
-          cursor-pointer 
-          shadow-md 
-          ${isPaused ? "bg-emerald-600 hover:bg-emerald-500 text-white" : "bg-amber-600 hover:bg-amber-500 text-white"}`}
+        <button
+          className={`
+            flex-1 py-4 font-bold rounded-xl transition-colors
+            text-sm md:text-base uppercase tracking-wider cursor-pointer shadow-md
+            ${
+              isPaused
+                ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                : "bg-amber-600 hover:bg-amber-500 text-white"
+            }`}
           onClick={() => setIsPaused(!isPaused)}
         >
           {isPaused ? "Старт" : "Пауза"}
         </button>
-        <button className="
-          flex-1 
-          py-4 
-          bg-gray-300 
-          dark:bg-[#4a1525] 
-          navy:bg-[#521929] 
-          text-gray-800 
-          dark:text-white 
-          navy:text-slate-200 
-          hover:bg-gray-400 
-          dark:hover:bg-[#611c31] 
-          navy:hover:bg-[#6e2137] 
-          font-bold 
-          rounded-xl 
-          transition-colors 
-          text-xs 
-          md:text-sm 
-          uppercase 
-          tracking-wider 
-          cursor-pointer shadow-md"
-          onClick={nextLevel}
+
+        <button
+          className="
+            flex-1 py-4 font-bold rounded-xl transition-colors
+            text-xs md:text-sm uppercase tracking-wider cursor-pointer shadow-md
+            bg-gray-300 dark:bg-[#4a1525] navy:bg-[#521929]
+            text-gray-800 dark:text-white navy:text-slate-200
+            hover:bg-gray-400 dark:hover:bg-[#611c31] navy:hover:bg-[#6e2137]"
+          onClick={() => nextLevel(false)}
         >
           След. Ур.
         </button>
-        {!isTheaterMode && (
-          <button className="
-            px-5 
-            py-4 
-            bg-gray-100 
-            dark:bg-gray-900 
-            navy:bg-[#0b0b14] 
-            text-gray-600 
-            dark:text-gray-400 
-            navy:text-slate-400 
-            border border-gray-300 
-            dark:border-gray-800 
-            navy:border-slate-800 
-            hover:text-gray-950 
-            dark:hover:text-white 
-            font-bold 
-            rounded-xl 
-            transition-colors 
-            text-base 
-            cursor-pointer"
+
+        {!theater && (
+          <button
+            className="
+              px-5 py-4 font-bold rounded-xl transition-colors
+              text-base cursor-pointer
+              bg-gray-100 dark:bg-gray-900 navy:bg-[#0b0b14]
+              text-gray-600 dark:text-gray-400 navy:text-slate-400
+              border border-gray-300 dark:border-gray-800 navy:border-slate-800
+              hover:text-gray-950 dark:hover:text-white"
             onClick={onToggleTheater}
           >
             📺
@@ -236,48 +202,29 @@ export function TimerDisplay({ isTheaterMode, onToggleTheater }: TimerDisplayPro
         )}
       </div>
 
-      <div className={`
-      w-full 
-      border-t 
-      border-gray-200 
-      dark:border-gray-900/60 
-      navy:border-slate-900/60 
-      pt-5 
-      space-y-3 
-      text-gray-500 
-      dark:text-gray-400 
-      navy:text-slate-400 
-      transition-all 
-      max-w-xl ${isTheaterMode ? "mt-12 text-lg" : "mt-8 text-sm"}`}
+      {/* Следующий уровень */}
+      <div
+        className={`
+        w-full border-t pt-5 space-y-3 transition-all max-w-xl
+        border-gray-200 dark:border-gray-900/60 navy:border-slate-900/60
+        text-gray-500 dark:text-gray-400 navy:text-slate-400
+        ${theater ? "mt-12 text-lg" : "mt-8 text-sm"}`}
       >
-        <div className="
-        flex 
-        justify-between 
-        items-center 
-        bg-gray-50 
-        dark:bg-gray-900/40 
-        navy:bg-[#0b0b14]/40 
-        p-3 
-        rounded-xl 
-        border 
-        border-gray-100 
-        dark:border-gray-900/30 
-        navy:border-slate-900/30">
-
-          <span className="font-medium tracking-wide">
-            Следующий уровень:
-          </span>
-
-          <span className={`
-          text-gray-900 
-          dark:text-white 
-          navy:text-slate-200 
-          font-extrabold 
-          transition-all ${isTheaterMode ? "text-3xl tracking-tight text-[#e94560]" : "text-xl"}`}
+        <div
+          className="
+          flex justify-between items-center p-3 rounded-xl border
+          bg-gray-50 dark:bg-gray-900/40 navy:bg-[#0b0b14]/40
+          border-gray-100 dark:border-gray-900/30 navy:border-slate-900/30"
+        >
+          <span className="font-medium tracking-wide">Следующий уровень:</span>
+          <span
+            className={`
+            font-extrabold transition-all
+            text-gray-900 dark:text-white navy:text-slate-200
+            ${theater ? "text-3xl tracking-tight text-[#e94560]" : "text-xl"}`}
           >
             {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
           </span>
-          
         </div>
       </div>
     </div>
