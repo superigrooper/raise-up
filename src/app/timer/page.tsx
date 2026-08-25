@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePokerStore } from "@/store/usePokerStore";
-import { ConfigForm } from "@/components/ConfigForm";
+import ConfigForm from "@/components/ConfigForm";
 import { TimerDisplay } from "@/components/TimerDisplay";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import Link from "next/link";
