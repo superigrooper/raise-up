@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
 import { TournamentRow } from "@/types/poker";
+import Footer from "@/components/Footer";
 
 export default function StructureConstructor() {
   const {
@@ -255,7 +256,7 @@ export default function StructureConstructor() {
         </main>
 
         {/* Нижние кнопки (Добавление классически в самый конец списка) */}
-        <footer className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => insertCustomRow(grid.length, false)}
             className="flex-1 py-3 bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 border border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-700 dark:text-gray-300 navy:text-slate-300 hover:border-emerald-500 hover:text-emerald-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
@@ -268,8 +269,9 @@ export default function StructureConstructor() {
           >
             ➕ Перерыв в конец списка
           </button>
-        </footer>
+        </div>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import Footer from "@/components/Footer";
 
 export default function HoldemRules() {
   const [isMounted, setIsMounted] = useState(false);
@@ -53,6 +54,7 @@ export default function HoldemRules() {
           </p>
         </article>
       </div>
+      <Footer/>
     </div>
   );
 }

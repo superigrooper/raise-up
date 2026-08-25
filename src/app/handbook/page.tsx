@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import Footer from "@/components/Footer";
 
 type Tab = "combinations" | "charts" | "dictionary";
 
@@ -243,14 +244,8 @@ export default function HandbookPage() {
             </div>
           )}
         </main>
-
-        {/* Подвал */}
-        <footer className="mt-8 border-t pt-4 border-gray-100 dark:border-gray-900/40 navy:border-slate-900/40 text-center text-[10px] tracking-wider uppercase text-gray-400 dark:text-gray-600 navy:text-slate-600 font-medium select-none">
-          <span>RAISE -UP</span>
-          <span className="mx-2">•</span>
-          <span>v{process.env.NEXT_PUBLIC_APP_VERSION || "1.5.0"}</span>
-        </footer>
       </div>
+        <Footer/>
     </div>
   );
 }

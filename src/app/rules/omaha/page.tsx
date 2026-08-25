@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import Footer from "@/components/Footer";
 
 export default function OmahaRules() {
   const [isMounted, setIsMounted] = useState(false);
@@ -50,6 +51,7 @@ export default function OmahaRules() {
           </p>
         </article>
       </div>
+      <Footer/>
     </div>
   );
 }

@@ -1,19 +1,10 @@
-// app/rules/page.tsx
 "use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import Footer from "@/components/Footer";
 
 export default function RulesMenu() {
-  const [isMounted, setIsMounted] = useState(false);
   const theme = usePokerStore((state) => state.theme);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
 
   const getThemeClass = () => {
     if (theme === "navy") return "navy bg-[#090916] text-white";
@@ -83,6 +74,7 @@ export default function RulesMenu() {
           ))}
         </main>
       </div>
+      <Footer/>
     </div>
   );
 }

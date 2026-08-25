@@ -5,6 +5,7 @@ import { usePokerStore } from "@/store/usePokerStore";
 import ConfigForm from "@/components/ConfigForm";
 import { TimerDisplay } from "@/components/TimerDisplay";
 import { ThemeSelector } from "@/components/ThemeSelector";
+import Footer from "@/components/Footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -32,7 +33,7 @@ export default function Home() {
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center ${getThemeClass()}`}
     >
       {/* Шапка приложения (скрывается или видоизменяется в режиме Theater Mode) */}
-      <header
+      <div
         className={`mb-6 md:mb-8 w-full border-b pb-4 border-gray-200 dark:border-gray-800 navy:border-slate-850 flex flex-col sm:flex-row justify-between items-center gap-4 ${
           isTheaterMode ? "max-w-6xl" : "max-w-2xl" // ИСПРАВЛЕНО: max-w-6xl вместо max-w-4xl
         }`}
@@ -73,7 +74,7 @@ export default function Home() {
             </button>
           )}
         </div>
-      </header>
+      </div>
 
       {/* Адаптивный контейнер */}
       <main
@@ -90,6 +91,7 @@ export default function Home() {
           onToggleTheater={() => setIsTheaterMode(true)}
         />
       </main>
+      <Footer/>
     </div>
   );
 }

@@ -7,13 +7,6 @@ import { usePokerStore } from "@/store/usePokerStore";
 
 export default function CalculatorPage() {
   const theme = usePokerStore((state) => state.theme);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) return null;
 
   const getThemeClass = () => {
     if (theme === "navy") return "navy bg-[#090916] text-white";

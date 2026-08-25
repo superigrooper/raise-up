@@ -9,23 +9,7 @@ import { navigation } from "@/lib/navigation";
 import getThemeClass from "@/utils/getThemeClass";
 
 export default function MainMenu() {
-  const [isMounted, setIsMounted] = useState(false);
   const theme: string = usePokerStore((state) => state.theme);
-  const _hasHydrated = usePokerStore((state) => state._hasHydrated);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    // Включаем ручную гидратацию Zustand строго в браузере
-    usePokerStore.persist.rehydrate();
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // Защитная заглушка для корректного SSR/Hydration
-  if (!isMounted) return null;
 
   getThemeClass(theme);
 
