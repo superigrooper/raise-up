@@ -57,3 +57,10 @@ export interface PokerStore {
   removeCustomRow: (index: number) => void;
   resetCustomGrid: () => void;
 }
+
+export interface Navigation {
+    title: string;
+    desc: string
+    path: string;
+    color: string;
+}

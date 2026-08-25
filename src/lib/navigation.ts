@@ -1,4 +1,6 @@
-export const navigation = [
+import { Navigation } from "@/types/poker";
+
+export const navigation: Navigation[] = [
   {
     title: "⏱️ Турнирный таймер",
     desc: "Управление блайндами, анте и перерывами. Полноэкранный режим для ТВ-экранов.",
