@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
 import { TournamentConfig } from "@/types/poker";
 import NumberField from "./NumberField";
 
-export const ConfigForm: React.FC = () => {
+export default function ConfigForm()  {
   const {
     config,
     setConfigValue,

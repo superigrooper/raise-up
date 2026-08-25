@@ -1,6 +1,5 @@
 import { NumberFieldProps } from "@/types/poker"; 
 
-
 const INPUT_CLASS = `
   w-24 text-center py-1.5 px-3 rounded-md border outline-none
   bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
@@ -20,7 +19,11 @@ export default function NumberField({
     <div className="flex justify-between items-center">
       <label
         htmlFor={id}
-        className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400"
+        className="
+        text-sm 
+        text-gray-600 
+        dark:text-gray-400 
+        navy:text-slate-400"
       >
         {label}
       </label>
