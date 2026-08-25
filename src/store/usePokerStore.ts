@@ -84,7 +84,7 @@ export const usePokerStore = create<any>()(
         }
       },
 
-      setTheme: (theme: any) => set({ theme }),
+      setTheme: (theme: string) => set({ theme }),
       setHasHydrated: (state: boolean) => set({ _hasHydrated: state }),
 
       // Вспомогательный метод для автоматического пересчета сквозной нумерации уровней
