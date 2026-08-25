@@ -79,3 +79,11 @@ export interface Navigation {
   path: string;
   color: string;
 }
+
+export interface NumberFieldProps {
+  id: string;
+  label: string;
+  value: number;
+  min?: number;
+  onChange: (value: number) => void;
+}

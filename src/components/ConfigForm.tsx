@@ -1,62 +1,9 @@
-// src/components/ConfigForm.tsx
 "use client";
-
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
 import { TournamentConfig } from "@/types/poker";
-
-// ─── Вспомогательные компоненты ───────────────────────────────────────────────
-
-interface NumberFieldProps {
-  id: string;
-  label: string;
-  value: number;
-  min?: number;
-  onChange: (value: number) => void;
-}
-
-function NumberField({
-  id,
-  label,
-  value,
-  min = 0,
-  onChange,
-}: NumberFieldProps) {
-  return (
-    <div className="flex justify-between items-center">
-      <label
-        htmlFor={id}
-        className="text-sm text-gray-600 dark:text-gray-400 navy:text-slate-400"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        type="number"
-        min={min}
-        value={value}
-        onChange={(e) => onChange(parseInt(e.target.value, 10) || 0)}
-        className="
-          w-24 text-center py-1.5 px-3 rounded-md border outline-none
-          bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
-          border-gray-300 dark:border-gray-800 navy:border-slate-800
-          text-gray-900 dark:text-white navy:text-slate-100
-          focus:border-[#e94560] transition-colors"
-      />
-    </div>
-  );
-}
-
-// ─── Основной компонент ───────────────────────────────────────────────────────
-
-const INPUT_CLASS = `
-  w-24 text-center py-1.5 px-3 rounded-md border outline-none
-  bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
-  border-gray-300 dark:border-gray-800 navy:border-slate-800
-  text-gray-900 dark:text-white navy:text-slate-100
-  focus:border-[#e94560] transition-colors
-`;
+import NumberField from "./NumberField";
 
 export const ConfigForm: React.FC = () => {
   const {
