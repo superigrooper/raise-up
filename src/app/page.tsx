@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link"; // Импортируем встроенный компонент ссылок Next.js
+import Link from "next/link"; 
 import { usePokerStore } from "@/store/usePokerStore";
-import { ThemeSelector } from "@/components/ThemeSelector";
+import Header from "@/components/Header";
 
 export default function MainMenu() {
   const [isMounted, setIsMounted] = useState(false);
@@ -62,17 +62,9 @@ export default function MainMenu() {
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass()}`}
     >
       <div className="w-full max-w-4xl">
-        {/* Шапка главного меню */}
-        <header className="mb-10 flex flex-col sm:flex-row justify-between items-center gap-4 border-b pb-6 border-gray-200 dark:border-gray-800 navy:border-slate-850">
-          <div className="text-center sm:text-left">
-            <h1 className="text-3xl font-black tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 navy:from-slate-100 navy:to-slate-400 bg-clip-text text-transparent">
-              RAISE-UP
-            </h1>
-          </div>
-          <ThemeSelector />
-        </header>
+      
+        <Header/>
 
-        {/* Сетка покерных разделов */}
         <main className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {menuItems.map((item, index) => (
             <Link
