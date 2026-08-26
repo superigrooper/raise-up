@@ -271,7 +271,7 @@ export default function StructureConstructor() {
           </button>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

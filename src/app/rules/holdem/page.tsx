@@ -54,7 +54,7 @@ export default function HoldemRules() {
           </p>
         </article>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

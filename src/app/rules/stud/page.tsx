@@ -51,7 +51,7 @@ export default function StudRules() {
           </p>
         </article>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

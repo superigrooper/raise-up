@@ -51,7 +51,7 @@ export default function OmahaRules() {
           </p>
         </article>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

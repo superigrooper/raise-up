@@ -245,7 +245,7 @@ export default function HandbookPage() {
           )}
         </main>
       </div>
-        <Footer/>
+      <Footer />
     </div>
   );
 }

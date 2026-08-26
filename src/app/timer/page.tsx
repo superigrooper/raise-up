@@ -91,7 +91,7 @@ export default function Home() {
           onToggleTheater={() => setIsTheaterMode(true)}
         />
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

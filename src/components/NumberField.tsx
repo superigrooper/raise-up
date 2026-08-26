@@ -1,4 +1,4 @@
-import { NumberFieldProps } from "@/types/poker"; 
+import { NumberFieldProps } from "@/types/poker";
 
 const INPUT_CLASS = `
   w-24 text-center py-1.5 px-3 rounded-md border outline-none

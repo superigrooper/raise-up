@@ -74,7 +74,7 @@ export default function RulesMenu() {
           ))}
         </main>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

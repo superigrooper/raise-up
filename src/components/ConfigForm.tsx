@@ -5,7 +5,7 @@ import { usePokerStore } from "@/store/usePokerStore";
 import { TournamentConfig } from "@/types/poker";
 import NumberField from "./NumberField";
 
-export default function ConfigForm()  {
+export default function ConfigForm() {
   const {
     config,
     setConfigValue,
@@ -175,4 +175,4 @@ export default function ConfigForm()  {
       </div>
     </div>
   );
-};
+}
