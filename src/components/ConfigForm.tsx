@@ -34,15 +34,15 @@ export default function ConfigForm() {
     <div
       className="
       p-5 rounded-xl shadow-lg border
-      border-gray-200 dark:border-gray-800 navy:border-slate-800
-      bg-white dark:bg-[#161625] navy:bg-[#121224]"
+      border-gray-200 navy:border-slate-800
+      bg-white navy:bg-[#121224]"
     >
       {/* ── Шапка ── */}
       <div className="flex justify-between items-center mb-3">
         <h3
           className="
           text-xs font-bold uppercase tracking-wider
-          text-gray-400 dark:text-gray-500 navy:text-slate-500"
+          text-gray-400 navy:text-slate-500"
         >
           Формат турнира
         </h3>
@@ -80,10 +80,10 @@ export default function ConfigForm() {
                 ${
                   isActive
                     ? "bg-[#e94560] text-white border-[#e94560] shadow-md"
-                    : `bg-gray-50 dark:bg-[#0f0f1b] navy:bg-[#0b0b14]
-                     text-gray-600 dark:text-gray-400 navy:text-slate-400
-                     border-gray-200 dark:border-gray-800 navy:border-slate-800
-                     hover:border-gray-400 dark:hover:border-gray-700 navy:hover:border-slate-700`
+                    : `bg-gray-50 navy:bg-[#0b0b14]
+                     text-gray-600 navy:text-slate-400
+                     border-gray-200 navy:border-slate-800
+                     hover:border-gray-400 navy:hover:border-slate-700`
                 }`}
             >
               {preset.name}
@@ -98,7 +98,7 @@ export default function ConfigForm() {
         transition-all duration-300 ease-in-out overflow-hidden
         ${
           isCustomOpen
-            ? "max-h-[500px] mt-5 pt-4 border-t border-gray-100 dark:border-gray-900/50 navy:border-slate-900/50"
+            ? "max-h-[500px] mt-5 pt-4 border-t border-gray-100 navy:border-slate-900/50"
             : "max-h-0"
         }`}
       >
@@ -123,7 +123,7 @@ export default function ConfigForm() {
           <div className="flex justify-between items-center py-1">
             <label
               htmlFor="useAnte"
-              className="text-sm font-medium text-gray-600 dark:text-gray-400 navy:text-slate-400"
+              className="text-sm font-medium text-gray-600 navy:text-slate-400"
             >
               Использовать Анте (Ante):
             </label>

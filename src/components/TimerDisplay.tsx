@@ -1,4 +1,3 @@
-// src/components/TimerDisplay.tsx
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -10,8 +9,6 @@ interface TimerDisplayProps {
   isTheaterMode: boolean;
   onToggleTheater: () => void;
 }
-
-// ─── Компонент ───────────────────────────────────────────────────────────────
 
 export function TimerDisplay({
   isTheaterMode,

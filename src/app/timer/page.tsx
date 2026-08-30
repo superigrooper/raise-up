@@ -30,7 +30,7 @@ export default function Home() {
     >
       {/* Шапка приложения (скрывается или видоизменяется в режиме Theater Mode) */}
       <div
-        className={`mb-6 md:mb-8 w-full border-b pb-4 border-gray-200 dark:border-gray-800 navy:border-slate-850 flex flex-col sm:flex-row justify-between items-center gap-4 ${
+        className={`mb-6 md:mb-8 w-full border-b pb-4 border-gray-200 navy:border-slate-850 flex flex-col sm:flex-row justify-between items-center gap-4 ${
           isTheaterMode ? "max-w-6xl" : "max-w-2xl" // ИСПРАВЛЕНО: max-w-6xl вместо max-w-4xl
         }`}
       >
@@ -46,13 +46,13 @@ export default function Home() {
                 ◀ В меню
               </Link>
             )}
-            <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 navy:from-slate-100 navy:to-slate-400 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 navy:from-slate-100 navy:to-slate-400 bg-clip-text text-transparent">
               {isTheaterMode ? "📋 Табло турнира" : "RAISE-UP"}
             </h1>
           </div>
 
           {!isTheaterMode && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 navy:text-slate-400 mt-0.5 uppercase tracking-widest">
+            <p className="text-xs text-gray-500 navy:text-slate-400 mt-0.5 uppercase tracking-widest">
               <span>v{process.env.NEXT_PUBLIC_APP_VERSION || "1.0.0"}</span>
             </p>
           )}

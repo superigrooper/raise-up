@@ -3,33 +3,14 @@ import { persist } from "zustand/middleware";
 import { defaultPresets } from "@/lib/presets";
 import { TournamentRow, PokerState, Theme } from "@/types/poker";
 import generateBlindsGrid from "@/utils/generateBlindsGrid";
-import { getSystemTheme } from "@/utils/getSystemTheme";
+import getSystemTheme from "@/utils/getSystemTheme";
+import calcSbFromBb from "@/utils/calcSbFromBb";
+import reindexGrid from "@/utils/reindexGrid";
 
-const CUSTOM_PRESET_ID = "custom" as const;
+const CUSTOM_PRESET_ID = "custom";
 const STORE_NAME = "poker-timer";
 const STORE_VERSION = 4;
 const DEFAULT_THEME = getSystemTheme();
-
-/**
- * Пересчитывает SB:
- * BB = 5 → SB = 2 (исключение, т.к. половина не целое)
- * BB = любой другой → SB = BB / 2
- */
-export const calcSbFromBb = (bb: number): number => (bb === 5 ? 2 : bb / 2);
-
-export const reindexGrid = (grid: TournamentRow[]): TournamentRow[] => {
-  let counter = 1;
-  return grid.map((row) => {
-    if (row.isBreak) return row;
-    const updated: TournamentRow = {
-      ...row,
-      levelNum: counter,
-      labelText: `Уровень ${counter}`,
-    };
-    counter++;
-    return updated;
-  });
-};
 
 export const usePokerStore = create<PokerState>()(
   persist(
@@ -47,7 +28,6 @@ export const usePokerStore = create<PokerState>()(
       theme: DEFAULT_THEME,
       _hasHydrated: false,
 
-      // ── Конфиг ──
       setAutoStart: (value) => set({ autoStart: value }),
 
       setConfigValue: (key, value) => {
@@ -98,8 +78,6 @@ export const usePokerStore = create<PokerState>()(
           secondsLeft: tempGrid.length > 0 ? tempGrid[0].duration * 60 : 0,
         });
       },
-
-      // ── Таймер ──
 
       setIsPaused: (paused) => set({ isPaused: paused }),
 
@@ -183,8 +161,6 @@ export const usePokerStore = create<PokerState>()(
           const current = updatedGrid[index];
           const updated: TournamentRow = { ...current, ...fields };
 
-          // Автопересчёт SB при изменении BB по правилам покера:
-          // BB=5 → SB=2, иначе SB = BB/2
           if (fields.bb !== undefined && typeof fields.bb === "number") {
             updated.sb = calcSbFromBb(fields.bb);
           }

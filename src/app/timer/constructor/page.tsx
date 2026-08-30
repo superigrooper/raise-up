@@ -54,20 +54,20 @@ export default function StructureConstructor() {
             e.stopPropagation();
             setActiveMobileMenuIndex(isOpen ? null : index);
           }}
-          className={`md:hidden w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs shadow transition-all cursor-pointer ${isOpen ? "bg-[#e94560] text-white rotate-45" : "bg-white dark:bg-[#161625] navy:bg-[#121224] text-gray-400 dark:text-gray-500 border border-gray-200 dark:border-gray-800 navy:border-slate-800"}`}
+          className={`md:hidden w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs shadow transition-all cursor-pointer ${isOpen ? "bg-[#e94560] text-white rotate-45" : "bg-white navy:bg-[#121224] text-gray-400 border border-gray-200 navy:border-slate-800"}`}
         >
           ＋
         </button>
 
         {/* Десктопное меню для мыши */}
-        <div className="hidden md:flex opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all gap-2 bg-white dark:bg-[#161625] navy:bg-[#121224] px-3 py-1 rounded-full shadow-md border border-gray-200 dark:border-gray-800 navy:border-slate-800">
+        <div className="hidden md:flex opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all gap-2 bg-white navy:bg-[#121224] px-3 py-1 rounded-full shadow-md border border-gray-200 navy:border-slate-800">
           <button
             onClick={() => insertCustomRow(index, false)}
             className="text-[10px] font-black uppercase text-emerald-500 hover:text-emerald-400 cursor-pointer"
           >
             ➕ Уровень
           </button>
-          <span className="text-gray-300 dark:text-gray-700 text-[10px] select-none">
+          <span className="text-gray-300 text-[10px] select-none">
             |
           </span>
           <button
@@ -80,7 +80,7 @@ export default function StructureConstructor() {
 
         {/* Выпадающее меню для пальцев (мобильный попап) */}
         {isOpen && (
-          <div className="absolute top-6 bg-white dark:bg-[#161625] navy:bg-[#121224] py-1.5 px-2 rounded-xl shadow-xl border border-gray-200 dark:border-gray-800 navy:border-slate-800 flex gap-4 z-30">
+          <div className="absolute top-6 bg-white navy:bg-[#121224] py-1.5 px-2 rounded-xl shadow-xl border border-gray-200 navy:border-slate-800 flex gap-4 z-30">
             <button
               onClick={() => {
                 insertCustomRow(index, false);
@@ -90,7 +90,7 @@ export default function StructureConstructor() {
             >
               🟢 + Уровень
             </button>
-            <span className="text-gray-200 dark:text-gray-800">|</span>
+            <span className="text-gray-200">|</span>
             <button
               onClick={() => {
                 insertCustomRow(index, true);
@@ -110,9 +110,9 @@ export default function StructureConstructor() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass()}`}
     >
-      <div className="w-full max-w-4xl bg-white dark:bg-[#161625] navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 navy:border-slate-800">
+      <div className="w-full max-w-4xl bg-white navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         {/* Шапка */}
-        <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 border-gray-100 dark:border-gray-900/60 navy:border-slate-900/60 gap-4">
+        <header className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60 gap-4">
           <div>
             <h1 className="text-2xl font-black">
               🛠️ Продвинутый конструктор структуры
@@ -127,7 +127,7 @@ export default function StructureConstructor() {
               onClick={() => {
                 resetCustomGrid();
               }}
-              className="px-3.5 py-2 border border-gray-300 dark:border-gray-700 navy:border-slate-700 text-gray-500 hover:text-[#e94560] hover:border-[#e94560] font-bold text-xs rounded-xl transition-all cursor-pointer bg-transparent"
+              className="px-3.5 py-2 border border-gray-300 navy:border-slate-700 text-gray-500 hover:text-[#e94560] hover:border-[#e94560] font-bold text-xs rounded-xl transition-all cursor-pointer bg-transparent"
               title="Сбросить таблицу к исходному шаблону пресета"
             >
               🧹 Сбросить
@@ -142,17 +142,17 @@ export default function StructureConstructor() {
         </header>
 
         {/* Панель показателей */}
-        <div className="mb-4 p-3 rounded-xl bg-gray-50 dark:bg-gray-900/40 navy:bg-[#0b0b14]/40 border border-gray-100 dark:border-gray-900/20 navy:border-slate-900/20 flex justify-between text-xs font-semibold text-gray-500">
+        <div className="mb-4 p-3 rounded-xl bg-gray-50 navy:bg-[#0b0b14]/40 border border-gray-100 navy:border-slate-900/20 flex justify-between text-xs font-semibold text-gray-500">
           <span>
             Всего блоков:{" "}
-            <strong className="text-gray-900 dark:text-white navy:text-slate-100">
+            <strong className="text-gray-900 navy:text-slate-100">
               {grid.length}
             </strong>
           </span>
         </div>
 
         {/* СПИСОК УРОВНЕЙ С ИНТЕРАКТИВНЫМИ ЗОНАМИ ВСТАВКИ */}
-        <main className="max-h-[500px] overflow-y-auto border border-gray-100 dark:border-gray-900/50 navy:border-slate-900/50 rounded-xl mb-6 bg-gray-50/50 dark:bg-gray-900/20 navy:bg-[#0b0b14]/20 p-4 space-y-1">
+        <main className="max-h-[500px] overflow-y-auto border border-gray-100 navy:border-slate-900/50 rounded-xl mb-6 bg-gray-50/50 navy:bg-[#0b0b14]/20 p-4 space-y-1">
           {/* Нулевая точка вставки (перед самым первым элементом) */}
           <InsertionBar index={0} />
 
@@ -162,12 +162,12 @@ export default function StructureConstructor() {
                 className={`p-3 rounded-xl border flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 transition-colors ${
                   row.isBreak
                     ? "bg-amber-500/5 border-amber-500/20 text-amber-500"
-                    : "bg-white dark:bg-[#0f0f1b] navy:bg-[#0b0b14] border-gray-200 dark:border-gray-800 navy:border-slate-850"
+                    : "bg-white navy:bg-[#0b0b14] border-gray-200 navy:border-slate-850"
                 }`}
               >
                 {/* Метка */}
                 <div className="flex items-center gap-2 min-w-[100px]">
-                  <span className="text-xs font-black uppercase bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 px-2 py-1 rounded-md text-gray-700 dark:text-gray-300 navy:text-slate-300 truncate ">
+                  <span className="text-xs font-black uppercase bg-gray-100 navy:bg-slate-900 px-2 py-1 rounded-md text-gray-700 navy:text-slate-300 truncate ">
                     {row.labelText}
                   </span>
                 </div>
@@ -192,7 +192,7 @@ export default function StructureConstructor() {
                               bb: Math.max(0, parseInt(e.target.value) || 0),
                             })
                           }
-                          className="w-20 text-center py-1 rounded-md border border-gray-200 dark:border-gray-800 navy:border-slate-800 bg-gray-50 dark:bg-gray-900 navy:bg-slate-900 text-xs font-extrabold text-gray-900 dark:text-white navy:text-slate-100 outline-none focus:border-[#e94560]"
+                          className="w-20 text-center py-1 rounded-md border border-gray-200 navy:border-slate-800 bg-gray-50 navy:bg-slate-900 text-xs font-extrabold text-gray-900 navy:text-slate-100 outline-none focus:border-[#e94560]"
                         />
                       </div>
                       <div className="flex items-center gap-1.5">
@@ -216,7 +216,7 @@ export default function StructureConstructor() {
                               ante: Math.max(0, parseInt(e.target.value) || 0),
                             })
                           }
-                          className="w-16 text-center py-1 rounded-md border border-gray-200 dark:border-gray-800 navy:border-slate-800 bg-gray-50 dark:bg-gray-900 navy:bg-slate-900 text-xs text-gray-900 dark:text-white navy:text-slate-100 outline-none focus:border-amber-500 disabled:opacity-30 disabled:cursor-not-allowed"
+                          className="w-16 text-center py-1 rounded-md border border-gray-200 navy:border-slate-800 bg-gray-50 navy:bg-slate-900 text-xs text-gray-900 navy:text-slate-100 outline-none focus:border-amber-500 disabled:opacity-30 disabled:cursor-not-allowed"
                         />
                       </div>
                     </>
@@ -234,7 +234,7 @@ export default function StructureConstructor() {
                           duration: Math.max(1, parseInt(e.target.value) || 1),
                         })
                       }
-                      className="w-14 text-center py-1 rounded-md border border-gray-200 dark:border-gray-800 navy:border-slate-800 bg-gray-50 dark:bg-gray-900 navy:bg-slate-900 text-xs text-gray-900 dark:text-white navy:text-slate-100 outline-none focus:border-[#e94560]"
+                      className="w-14 text-center py-1 rounded-md border border-gray-200 navy:border-slate-800 bg-gray-50 navy:bg-slate-900 text-xs text-gray-900 navy:text-slate-100 outline-none focus:border-[#e94560]"
                     />
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function StructureConstructor() {
                 {/* Кнопка Удаления */}
                 <button
                   onClick={() => removeCustomRow(index)}
-                  className="w-7 h-7 rounded-md bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 text-gray-400 hover:text-[#e94560] font-bold text-xs flex items-center justify-center cursor-pointer transition-all border border-transparent hover:border-red-500/20"
+                  className="w-7 h-7 rounded-md bg-gray-100 navy:bg-slate-900 text-gray-400 hover:text-[#e94560] font-bold text-xs flex items-center justify-center cursor-pointer transition-all border border-transparent hover:border-red-500/20"
                   title="Удалить этот раунд"
                 >
                   ✕
@@ -259,13 +259,13 @@ export default function StructureConstructor() {
         <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => insertCustomRow(grid.length, false)}
-            className="flex-1 py-3 bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 border border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-700 dark:text-gray-300 navy:text-slate-300 hover:border-emerald-500 hover:text-emerald-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
+            className="flex-1 py-3 bg-gray-100 navy:bg-slate-900 border border-gray-300 navy:border-slate-800 text-gray-700 navy:text-slate-300 hover:border-emerald-500 hover:text-emerald-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
           >
             ➕ Уровень в конец списка
           </button>
           <button
             onClick={() => insertCustomRow(grid.length, true)}
-            className="flex-1 py-3 bg-gray-100 dark:bg-gray-900 navy:bg-slate-900 border border-gray-300 dark:border-gray-800 navy:border-slate-800 text-gray-700 dark:text-gray-300 navy:text-slate-300 hover:border-amber-500 hover:text-amber-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
+            className="flex-1 py-3 bg-gray-100 navy:bg-slate-900 border border-gray-300 navy:border-slate-800 text-gray-700 navy:text-slate-300 hover:border-amber-500 hover:text-amber-500 font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer transition-all text-center"
           >
             ➕ Перерыв в конец списка
           </button>

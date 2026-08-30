@@ -23,13 +23,11 @@ export function ThemeSelector() {
     flex 
     gap-1.5
     bg-gray-200/50 
-    dark:bg-[#0b0b14] 
     navy:bg-[#0b0b14] 
     p-1 
     rounded-xl 
     border 
     border-gray-300 
-    dark:border-slate-800 
     navy:border-slate-800 
     transition-colors"
     >
@@ -51,7 +49,7 @@ export function ThemeSelector() {
             ${
               theme === t.id
                 ? "bg-[#e94560] text-white border-[#e94560] shadow-sm"
-                : "bg-transparent text-gray-600 dark:text-slate-400 navy:text-slate-400 border-transparent hover:text-gray-900 dark:hover:text-slate-200 navy:hover:text-slate-200"
+                : "bg-transparent text-gray-600 navy:text-slate-400 border-transparent hover:text-gray-900 navy:hover:text-slate-200"
             }`}
         >
           <span>{t.icon}</span>

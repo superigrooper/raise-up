@@ -33,45 +33,33 @@ export interface UseTimerOptions {
 }
 
 export interface PokerState {
-  // Данные
   config: TournamentConfig;
   presets: Preset[];
   activePresetId: string;
   grid: TournamentRow[];
   isCustomGrid: boolean;
-
-  // Таймер
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-
-  // UI
+  autoStart: boolean; 
   theme: Theme;
   _hasHydrated: boolean;
 
-  // Конфиг
   setConfigValue: <K extends keyof TournamentConfig>(
     key: K,
     value: TournamentConfig[K],
   ) => void;
   selectPreset: (presetId: string) => void;
   buildTournament: () => void;
-
-  // Таймер
   setIsPaused: (paused: boolean) => void;
   setSecondsLeft: (seconds: number | ((prev: number) => number)) => void;
   nextLevel: (auto?: boolean) => void;
-
-  // Кастомная сетка
   insertCustomRow: (index: number, isBreak: boolean) => void;
   removeCustomRow: (index: number) => void;
   updateCustomRow: (index: number, fields: Partial<TournamentRow>) => void;
   resetCustomGrid: () => void;
-
-  // UI
   setTheme: (theme: Theme) => void;
   setHasHydrated: (state: boolean) => void;
-  autoStart: boolean; // ← новое поле
   setAutoStart: (value: boolean) => void;
 }
 
