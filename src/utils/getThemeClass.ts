@@ -7,8 +7,7 @@ export default function getThemeClass(theme: Theme): string {
   const themes: Record<Theme, string> = {
     navy: dark,
     light: light,
-  }
+  };
 
   return themes[theme];
 }
-

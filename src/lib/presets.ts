@@ -42,7 +42,7 @@ export const defaultPresets: Preset[] = [
     name: "Гипер-турбо",
     config: {
       startBB: 100,
-      levelDuration: .2,
+      levelDuration: 0.2,
       useAnte: true,
       anteStartBB: 100,
       breakEvery: 3,

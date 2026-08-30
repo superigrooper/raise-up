@@ -230,7 +230,8 @@ export function TimerDisplay({
         </div>
       </div>
       {/* ── Автостарт ── */}
-      <div className={`
+      <div
+        className={`
         flex items-center justify-between w-full
         ${theater ? "max-w-2xl mt-4" : "max-w-xl mt-3"}`}
       >
@@ -250,11 +251,14 @@ export function TimerDisplay({
           className={`
             relative inline-flex w-12 h-6 rounded-full transition-colors duration-200
             focus:outline-none cursor-pointer
-            ${autoStart
-              ? "bg-emerald-600"
-              : "bg-gray-300 dark:bg-gray-700 navy:bg-slate-700"}`}
+            ${
+              autoStart
+                ? "bg-emerald-600"
+                : "bg-gray-300 dark:bg-gray-700 navy:bg-slate-700"
+            }`}
         >
-          <span className={`
+          <span
+            className={`
             inline-block w-5 h-5 mt-0.5 rounded-full bg-white shadow
             transform transition-transform duration-200
             ${autoStart ? "translate-x-6" : "translate-x-0.5"}`}

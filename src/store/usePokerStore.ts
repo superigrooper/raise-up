@@ -115,7 +115,7 @@ export const usePokerStore = create<PokerState>()(
        * auto=false — ручной переход (ставим на паузу)
        * auto=true  — автопереход по таймеру (продолжаем играть)
        */
-       nextLevel: (auto = false) => {
+      nextLevel: (auto = false) => {
         const { currentIndex, grid, autoStart } = get();
         const nextIndex = currentIndex + 1;
 
@@ -215,7 +215,7 @@ export const usePokerStore = create<PokerState>()(
         if (theme !== "light") root.classList.add(theme);
         set({ theme });
       },
-      
+
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
 
