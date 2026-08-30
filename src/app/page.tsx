@@ -9,9 +9,15 @@ import { navigation } from "@/lib/navigation";
 import getThemeClass from "@/utils/getThemeClass";
 
 export default function MainMenu() {
-  const theme: string = usePokerStore((state) => state.theme);
 
-  getThemeClass(theme);
+  const theme: string = usePokerStore((state) => state.theme);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div

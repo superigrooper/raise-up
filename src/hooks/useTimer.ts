@@ -8,14 +8,25 @@ export function useTimer({
   onComplete,
 }: UseTimerOptions): void {
   const endTimeRef = useRef<number | null>(null);
-  // Ref для secondsLeft — чтобы интервал всегда читал актуальное значение
-  // без пересоздания при каждом тике
   const secondsRef = useRef<number>(secondsLeft);
+  const isPausedRef = useRef<boolean>(isPaused);
 
-  // Синхронизируем ref при внешнем изменении secondsLeft
-  // (например, при переходе на следующий уровень)
+  // Синхронизируем isPausedRef
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+  }, [isPaused]);
+
+  // При внешнем изменении secondsLeft (смена уровня):
+  // — обновляем ref
+  // — сбрасываем endTimeRef чтобы интервал пересчитал время с нуля
   useEffect(() => {
     secondsRef.current = secondsLeft;
+
+    // Если таймер запущен — пересчитываем точку окончания
+    // Если на паузе (endTimeRef = null) — не трогаем
+    if (!isPausedRef.current) {
+      endTimeRef.current = Date.now() + secondsLeft * 1000;
+    }
   }, [secondsLeft]);
 
   useEffect(() => {
@@ -24,7 +35,7 @@ export function useTimer({
       return;
     }
 
-    // Фиксируем момент окончания на основе текущего ref-значения
+    // Инициализируем точку окончания при снятии с паузы
     endTimeRef.current = Date.now() + secondsRef.current * 1000;
 
     const intervalId = setInterval(() => {
@@ -33,21 +44,20 @@ export function useTimer({
       const msLeft = endTimeRef.current - Date.now();
       const newSeconds = Math.max(0, Math.ceil(msLeft / 1000));
 
-      // Обновляем только при смене целой секунды
       if (newSeconds !== secondsRef.current) {
         secondsRef.current = newSeconds;
         onTick(newSeconds);
 
         if (newSeconds === 0) {
+          // Сбрасываем endTimeRef ДО вызова onComplete —
+          // чтобы следующий тик не увидел старое прошедшее время
+          endTimeRef.current = null;
           onComplete();
         }
       }
     }, 100);
 
     return () => clearInterval(intervalId);
-
-    // Пересоздаём интервал только при смене паузы.
-    // onTick / onComplete оборачиваем в ref ниже, чтобы не попасть в deps.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPaused]);
 }

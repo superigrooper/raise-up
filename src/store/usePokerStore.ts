@@ -6,7 +6,7 @@ import generateBlindsGrid from "@/utils/generateBlindsGrid";
 
 const CUSTOM_PRESET_ID = "custom" as const;
 const STORE_NAME = "poker-timer";
-const STORE_VERSION = 2;
+const STORE_VERSION = 3;
 
 /**
  * Пересчитывает SB:
@@ -44,10 +44,12 @@ export const usePokerStore = create<PokerState>()(
       currentIndex: 0,
       secondsLeft: 0,
       isPaused: true,
+      autoStart: false, // 
       theme: "light",
       _hasHydrated: false,
 
       // ── Конфиг ──
+      setAutoStart: (value) => set({ autoStart: value }),
 
       setConfigValue: (key, value) => {
         set((state) => ({
@@ -114,18 +116,19 @@ export const usePokerStore = create<PokerState>()(
        * auto=false — ручной переход (ставим на паузу)
        * auto=true  — автопереход по таймеру (продолжаем играть)
        */
-      nextLevel: (auto = false) => {
-        const { currentIndex, grid } = get();
+       nextLevel: (auto = false) => {
+        const { currentIndex, grid, autoStart } = get();
         const nextIndex = currentIndex + 1;
 
         if (nextIndex < grid.length) {
           set({
             currentIndex: nextIndex,
             secondsLeft: grid[nextIndex].duration * 60,
-            isPaused: !auto,
+            // Ручной переход → всегда пауза
+            // Автопереход → смотрим на настройку autoStart
+            isPaused: auto ? !autoStart : true,
           });
         } else {
-          // Турнир завершён
           set({ isPaused: true });
         }
       },
@@ -225,6 +228,7 @@ export const usePokerStore = create<PokerState>()(
         theme: state.theme,
         grid: state.grid,
         isCustomGrid: state.isCustomGrid,
+                autoStart: state.autoStart,
       }),
 
       // Миграции при смене версии схемы

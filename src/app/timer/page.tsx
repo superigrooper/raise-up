@@ -7,6 +7,7 @@ import { TimerDisplay } from "@/components/TimerDisplay";
 import { ThemeSelector } from "@/components/ThemeSelector";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import getThemeClass from "@/utils/getThemeClass";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
@@ -23,14 +24,9 @@ export default function Home() {
 
   if (!isMounted) return null;
 
-  const getThemeClass = () => {
-    if (theme === "navy") return "navy bg-[#090916] text-white";
-    return "bg-gray-100 text-gray-900";
-  };
-
   return (
     <div
-      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center ${getThemeClass()}`}
+      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center ${getThemeClass(theme)}`}
     >
       {/* Шапка приложения (скрывается или видоизменяется в режиме Theater Mode) */}
       <div

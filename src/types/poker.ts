@@ -71,6 +71,8 @@ export interface PokerState {
   // UI
   setTheme: (theme: string) => void;
   setHasHydrated: (state: boolean) => void;
+  autoStart: boolean; // ← новое поле
+  setAutoStart: (value: boolean) => void;
 }
 
 export interface Navigation {
