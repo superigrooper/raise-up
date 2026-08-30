@@ -3,10 +3,12 @@ import { persist } from "zustand/middleware";
 import { defaultPresets } from "@/lib/presets";
 import { TournamentRow, PokerState } from "@/types/poker";
 import generateBlindsGrid from "@/utils/generateBlindsGrid";
+import { getSystemTheme } from "@/utils/getSystemTheme";
 
 const CUSTOM_PRESET_ID = "custom" as const;
 const STORE_NAME = "poker-timer";
-const STORE_VERSION = 3;
+const STORE_VERSION = 4;
+const DEFAULT_THEME = getSystemTheme();
 
 /**
  * Пересчитывает SB:
@@ -15,9 +17,6 @@ const STORE_VERSION = 3;
  */
 export const calcSbFromBb = (bb: number): number => (bb === 5 ? 2 : bb / 2);
 
-/**
- * Восстанавливает сквозную нумерацию уровней (не перерывов).
- */
 export const reindexGrid = (grid: TournamentRow[]): TournamentRow[] => {
   let counter = 1;
   return grid.map((row) => {
@@ -44,8 +43,8 @@ export const usePokerStore = create<PokerState>()(
       currentIndex: 0,
       secondsLeft: 0,
       isPaused: true,
-      autoStart: false, // 
-      theme: "light",
+      autoStart: false,
+      theme: DEFAULT_THEME,
       _hasHydrated: false,
 
       // ── Конфиг ──
@@ -210,7 +209,13 @@ export const usePokerStore = create<PokerState>()(
 
       // ── UI ──
 
-      setTheme: (theme) => set({ theme }),
+      setTheme: (theme) => {
+        const root = document.documentElement;
+        root.classList.remove("dark", "navy", "light");
+        if (theme !== "light") root.classList.add(theme);
+        set({ theme });
+      },
+      
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
 
@@ -228,7 +233,7 @@ export const usePokerStore = create<PokerState>()(
         theme: state.theme,
         grid: state.grid,
         isCustomGrid: state.isCustomGrid,
-                autoStart: state.autoStart,
+        autoStart: state.autoStart,
       }),
 
       // Миграции при смене версии схемы
