@@ -46,7 +46,7 @@ export interface PokerState {
   isPaused: boolean;
 
   // UI
-  theme: string;
+  theme: Theme;
   _hasHydrated: boolean;
 
   // Конфиг
@@ -69,7 +69,7 @@ export interface PokerState {
   resetCustomGrid: () => void;
 
   // UI
-  setTheme: (theme: string) => void;
+  setTheme: (theme: Theme) => void;
   setHasHydrated: (state: boolean) => void;
   autoStart: boolean; // ← новое поле
   setAutoStart: (value: boolean) => void;

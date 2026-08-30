@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { defaultPresets } from "@/lib/presets";
-import { TournamentRow, PokerState } from "@/types/poker";
+import { TournamentRow, PokerState, Theme } from "@/types/poker";
 import generateBlindsGrid from "@/utils/generateBlindsGrid";
 import { getSystemTheme } from "@/utils/getSystemTheme";
 
@@ -209,7 +209,7 @@ export const usePokerStore = create<PokerState>()(
 
       // ── UI ──
 
-      setTheme: (theme) => {
+      setTheme: (theme: Theme) => {
         const root = document.documentElement;
         root.classList.remove("dark", "navy", "light");
         if (theme !== "light") root.classList.add(theme);

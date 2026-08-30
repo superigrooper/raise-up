@@ -7,9 +7,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { navigation } from "@/lib/navigation";
 import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
 
 export default function MainMenu() {
-  const theme: string = usePokerStore((state) => state.theme);
+  const theme: Theme = usePokerStore((state) => state.theme);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

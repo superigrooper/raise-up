@@ -79,7 +79,7 @@ export function TimerDisplay({
       <div
         className="
         w-full p-6 text-center text-gray-400
-        bg-white dark:bg-[#161625] navy:bg-[#121224]
+        bg-white navy:bg-[#121224]
         rounded-xl border border-gray-800"
       >
         Генерация сетки...
@@ -105,15 +105,15 @@ export function TimerDisplay({
       className={`
       p-6 rounded-xl flex flex-col items-center shadow-lg border
       transition-all duration-300
-      bg-white dark:bg-[#161625] navy:bg-[#121224]
-      border-gray-200 dark:border-gray-800 navy:border-slate-800
+      bg-white bg-[#161625] navy:bg-[#121224]
+      border-gray-200 navy:border-slate-800
       w-full ${theater ? "py-12 px-10" : "py-6"}`}
     >
       {/* Заголовок уровня */}
       <div
         className={`
         font-bold tracking-widest uppercase
-        text-gray-400 dark:text-gray-500 navy:text-slate-500
+        text-gray-400 navy:text-slate-500
         ${theater ? "text-xl tracking-[0.2em]" : "text-sm"}`}
       >
         {currentData.isBreak
@@ -125,7 +125,7 @@ export function TimerDisplay({
       <div
         className={`
         font-extrabold my-4 tracking-tight leading-none text-center
-        text-gray-900 dark:text-white navy:text-slate-100
+        text-gray-900 navy:text-slate-100
         ${theater ? "text-6xl sm:text-7xl lg:text-8xl my-6" : "text-4xl md:text-5xl"}`}
       >
         {currentData.isBreak
@@ -136,7 +136,7 @@ export function TimerDisplay({
       {/* Анте / Длительность перерыва */}
       <div
         className={`
-        text-yellow-600 dark:text-yellow-500 navy:text-amber-500
+        text-yellow-600 navy:text-amber-500
         font-semibold min-h-[24px]
         ${theater ? "text-2xl mb-12" : "text-base mb-6"}`}
       >
@@ -180,9 +180,9 @@ export function TimerDisplay({
           className="
             flex-1 py-4 font-bold rounded-xl transition-colors
             text-xs md:text-sm uppercase tracking-wider cursor-pointer shadow-md
-            bg-gray-300 dark:bg-[#4a1525] navy:bg-[#521929]
-            text-gray-800 dark:text-white navy:text-slate-200
-            hover:bg-gray-400 dark:hover:bg-[#611c31] navy:hover:bg-[#6e2137]"
+            bg-gray-300 navy:bg-[#521929]
+            text-gray-800 navy:text-slate-200
+            hover:bg-gray-400 navy:hover:bg-[#6e2137]"
           onClick={() => nextLevel(false)}
         >
           След. Ур.
@@ -193,10 +193,10 @@ export function TimerDisplay({
             className="
               px-5 py-4 font-bold rounded-xl transition-colors
               text-base cursor-pointer
-              bg-gray-100 dark:bg-gray-900 navy:bg-[#0b0b14]
-              text-gray-600 dark:text-gray-400 navy:text-slate-400
-              border border-gray-300 dark:border-gray-800 navy:border-slate-800
-              hover:text-gray-950 dark:hover:text-white"
+              bg-gray-100 navy:bg-[#0b0b14]
+              text-gray-600 navy:text-slate-400
+              border border-gray-300 navy:border-slate-800
+              hover:text-gray-950"
             onClick={onToggleTheater}
           >
             📺
@@ -208,21 +208,21 @@ export function TimerDisplay({
       <div
         className={`
         w-full border-t pt-5 space-y-3 transition-all max-w-xl
-        border-gray-200 dark:border-gray-900/60 navy:border-slate-900/60
-        text-gray-500 dark:text-gray-400 navy:text-slate-400
+        border-gray-200 navy:border-slate-900/60
+        text-gray-500 navy:text-slate-400
         ${theater ? "mt-12 text-lg" : "mt-8 text-sm"}`}
       >
         <div
           className="
           flex justify-between items-center p-3 rounded-xl border
-          bg-gray-50 dark:bg-gray-900/40 navy:bg-[#0b0b14]/40
-          border-gray-100 dark:border-gray-900/30 navy:border-slate-900/30"
+          bg-gray-50 navy:bg-[#0b0b14]/40
+          border-gray-100 navy:border-slate-900/30"
         >
           <span className="font-medium tracking-wide">Следующий уровень:</span>
           <span
             className={`
             font-extrabold transition-all
-            text-gray-900 dark:text-white navy:text-slate-200
+            text-gray-900 navy:text-slate-200
             ${theater ? "text-3xl tracking-tight text-[#e94560]" : "text-xl"}`}
           >
             {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
@@ -239,7 +239,7 @@ export function TimerDisplay({
           htmlFor="autoStart"
           className="
             text-sm font-medium cursor-pointer select-none
-            text-gray-500 dark:text-gray-400 navy:text-slate-400"
+            text-gray-500 navy:text-slate-400"
         >
           🔄 Автостарт следующего уровня
         </label>
@@ -254,7 +254,7 @@ export function TimerDisplay({
             ${
               autoStart
                 ? "bg-emerald-600"
-                : "bg-gray-300 dark:bg-gray-700 navy:bg-slate-700"
+                : "bg-gray-300 navy:bg-slate-700"
             }`}
         >
           <span
