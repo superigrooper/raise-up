@@ -7,7 +7,7 @@ import { Theme } from "@/types/poker";
 
 export default function RulesMenu() {
   const theme: Theme = usePokerStore((state) => state.theme);
-  
+
   const pokerGames = [
     {
       title: "🃏 Безлимитный Холдем",

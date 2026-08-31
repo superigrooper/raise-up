@@ -14,7 +14,7 @@ export default function OmahaRules() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  
+
   if (!isMounted) return null;
 
   return (

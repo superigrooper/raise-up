@@ -42,7 +42,7 @@ export interface PokerState {
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  autoStart: boolean; 
+  autoStart: boolean;
   theme: Theme;
   _hasHydrated: boolean;
 

@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 import getThemeClass from "@/utils/getThemeClass";
 import { Theme } from "@/types/poker";
 
-
 export default function StructureConstructor() {
   const theme: Theme = usePokerStore((state) => state.theme);
 
@@ -65,9 +64,7 @@ export default function StructureConstructor() {
           >
             ➕ Уровень
           </button>
-          <span className="text-gray-300 text-[10px] select-none">
-            |
-          </span>
+          <span className="text-gray-300 text-[10px] select-none">|</span>
           <button
             onClick={() => insertCustomRow(index, true)}
             className="text-[10px] font-black uppercase text-amber-500 hover:text-amber-400 cursor-pointer"
@@ -131,6 +128,15 @@ export default function StructureConstructor() {
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors text-center cursor-pointer"
             >
               💾 Сохранить
+            </Link>
+            <Link
+              href="/timer"
+              onClick={() => {
+                resetCustomGrid();
+              }}
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-md transition-colors text-center cursor-pointer"
+            >
+              ◀ Назад
             </Link>
           </div>
         </header>

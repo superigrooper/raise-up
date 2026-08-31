@@ -12,4 +12,4 @@ export default function reindexGrid(grid: TournamentRow[]): TournamentRow[] {
     counter++;
     return updated;
   });
-};
+}

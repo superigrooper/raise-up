@@ -248,11 +248,7 @@ export function TimerDisplay({
           className={`
             relative inline-flex w-12 h-6 rounded-full transition-colors duration-200
             focus:outline-none cursor-pointer
-            ${
-              autoStart
-                ? "bg-emerald-600"
-                : "bg-gray-300 navy:bg-slate-700"
-            }`}
+            ${autoStart ? "bg-emerald-600" : "bg-gray-300 navy:bg-slate-700"}`}
         >
           <span
             className={`

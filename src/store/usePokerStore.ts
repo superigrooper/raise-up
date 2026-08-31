@@ -64,7 +64,6 @@ export const usePokerStore = create<PokerState>()(
           set({
             currentIndex: 0,
             isPaused: true,
-            // Исправлен баг: grid[0].duration вместо grid.duration
             secondsLeft: grid.length > 0 ? grid[0].duration * 60 : 0,
           });
           return;

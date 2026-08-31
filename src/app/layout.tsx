@@ -48,9 +48,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <HydrationProvider>
-          {children}
-        </HydrationProvider>
+        <HydrationProvider>{children}</HydrationProvider>
       </body>
     </html>
   );
