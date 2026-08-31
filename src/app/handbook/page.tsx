@@ -1,15 +1,16 @@
-// src/app/handbook/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
 import Footer from "@/components/Footer";
-
-type Tab = "combinations" | "charts" | "dictionary";
+import { Tab } from "@/types/poker";
 
 export default function HandbookPage() {
-  const theme = usePokerStore((state) => state.theme);
+  const theme: Theme = usePokerStore((state) => state.theme);
+
   const [isMounted, setIsMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("combinations");
 
@@ -18,11 +19,6 @@ export default function HandbookPage() {
   }, []);
 
   if (!isMounted) return null;
-
-  const getThemeClass = () => {
-    if (theme === "navy") return "navy bg-[#090916] text-white";
-    return "bg-gray-100 text-gray-900";
-  };
 
   // Данные: Комбинации
   const combinations = [
@@ -34,7 +30,7 @@ export default function HandbookPage() {
     {
       name: "🎨 Стрит-Флэш",
       desc: "Пять последовательных карт одной масти.",
-      example: "9♥ 8🎨 7♥ 6♥ 5♥",
+      example: "9♥ 8♥ 7♥ 6♥ 5♥",
     },
     {
       name: "🦁 Каре",
@@ -126,7 +122,7 @@ export default function HandbookPage() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass()}`}
+      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass(theme)}`}
     >
       <div className="w-full max-w-3xl bg-white navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         {/* Шапка справочника */}

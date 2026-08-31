@@ -1,28 +1,25 @@
-// app/rules/holdem/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
 import Footer from "@/components/Footer";
 
 export default function HoldemRules() {
+  const theme: Theme = usePokerStore((state) => state.theme);
   const [isMounted, setIsMounted] = useState(false);
-  const theme = usePokerStore((state) => state.theme);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+  
   if (!isMounted) return null;
-
-  const getThemeClass = () =>
-    theme === "navy"
-      ? "navy bg-[#090916] text-white"
-      : "bg-gray-100 text-gray-900";
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass()}`}
+      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
       <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">

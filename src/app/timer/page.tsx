@@ -8,12 +8,14 @@ import { ThemeSelector } from "@/components/ThemeSelector";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
+
 
 export default function Home() {
+  const theme: Theme = usePokerStore((state) => state.theme);
   const [isMounted, setIsMounted] = useState(false);
-  const [isTheaterMode, setIsTheaterMode] = useState(false); // Состояние полноэкранного режима
+  const [isTheaterMode, setIsTheaterMode] = useState(false);
   const buildTournament = usePokerStore((state) => state.buildTournament);
-  const theme = usePokerStore((state) => state.theme);
 
   useEffect(() => {
     setIsMounted(true);

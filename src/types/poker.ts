@@ -1,4 +1,5 @@
 export type Theme = "navy" | "light";
+export type Tab = "combinations" | "charts" | "dictionary";
 
 export interface TournamentConfig {
   startBB: number;

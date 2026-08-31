@@ -2,18 +2,15 @@
 
 import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
+import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
 
 export default function CalculatorPage() {
-  const theme = usePokerStore((state) => state.theme);
-
-  const getThemeClass = () => {
-    if (theme === "navy") return "navy bg-[#090916] text-white";
-    return "bg-gray-100 text-gray-900";
-  };
+  const theme: Theme = usePokerStore((state) => state.theme);
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass()}`}
+      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
       <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         {/* Шапка страницы */}

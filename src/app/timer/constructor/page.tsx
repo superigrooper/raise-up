@@ -1,4 +1,3 @@
-// src/app/timer/constructor/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -6,14 +5,18 @@ import Link from "next/link";
 import { usePokerStore } from "@/store/usePokerStore";
 import { TournamentRow } from "@/types/poker";
 import Footer from "@/components/Footer";
+import getThemeClass from "@/utils/getThemeClass";
+import { Theme } from "@/types/poker";
+
 
 export default function StructureConstructor() {
+  const theme: Theme = usePokerStore((state) => state.theme);
+
   const {
     grid,
     updateCustomRow,
     insertCustomRow,
     removeCustomRow,
-    theme,
     config,
     resetCustomGrid,
   } = usePokerStore();
@@ -27,6 +30,7 @@ export default function StructureConstructor() {
       usePokerStore.getState().buildTournament();
     }
   }, []);
+
   // СЛУШАТЕЛЬ ДЛЯ ЗАКРЫТИЯ МОБИЛЬНОГО МЕНЮ ПРИ КЛИКЕ МИМО НЕГО
   useEffect(() => {
     const handleOutsideClick = () => setActiveMobileMenuIndex(null);
@@ -34,13 +38,7 @@ export default function StructureConstructor() {
     return () => window.removeEventListener("click", handleOutsideClick);
   }, []);
 
-  const getThemeClass = () => {
-    if (theme === "navy") return "navy bg-[#090916] text-white";
-    return "bg-gray-100 text-gray-900";
-  };
-
   // Визуальный разделитель с кнопками для вклинивания раундов в середину таблицы
-
   const InsertionBar = ({ index }: { index: number }) => {
     const isOpen = activeMobileMenuIndex === index;
     return (
@@ -78,7 +76,7 @@ export default function StructureConstructor() {
           </button>
         </div>
 
-        {/* Выпадающее меню для пальцев (мобильный попап) */}
+        {/* Выпадающее меню (мобильный попап) */}
         {isOpen && (
           <div className="absolute top-6 bg-white navy:bg-[#121224] py-1.5 px-2 rounded-xl shadow-xl border border-gray-200 navy:border-slate-800 flex gap-4 z-30">
             <button
@@ -108,7 +106,7 @@ export default function StructureConstructor() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass()}`}
+      className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass(theme)}`}
     >
       <div className="w-full max-w-4xl bg-white navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         {/* Шапка */}
@@ -117,10 +115,6 @@ export default function StructureConstructor() {
             <h1 className="text-2xl font-black">
               🛠️ Продвинутый конструктор структуры
             </h1>
-            <p className="text-xs text-gray-400 mt-0.5">
-              Наведите курсор мыши в пространство между любыми строками, чтобы
-              вставить раунд в середину
-            </p>
           </div>
           <div className="flex items-center gap-3">
             <button
