@@ -24,8 +24,8 @@ export default function HoldemRules() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass()}`}
     >
-      <div className="w-full max-w-2xl bg-white dark:bg-[#161625] navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 navy:border-slate-800">
-        <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 dark:border-gray-900/60 navy:border-slate-900/60">
+      <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+        <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
           <h1 className="text-xl font-black">
             🃏 Безлимитный Техасский Холдем
           </h1>
@@ -36,7 +36,7 @@ export default function HoldemRules() {
             ◀ К списку
           </Link>
         </header>
-        <article className="space-y-4 text-xs md:text-sm text-gray-600 dark:text-gray-300 navy:text-slate-300 leading-relaxed">
+        <article className="space-y-4 text-xs md:text-sm text-gray-600 navy:text-slate-300 leading-relaxed">
           <p>
             <strong>Раздача:</strong> Каждый игрок получает по 2 закрытые карты
             (карманные карты).
