@@ -11,6 +11,7 @@ export const defaultPresets: Preset[] = [
       anteStartBB: 200,
       breakEvery: 4,
       breakDuration: 10,
+      warningTime: 30,
     },
   },
   {
@@ -23,6 +24,7 @@ export const defaultPresets: Preset[] = [
       anteStartBB: 150,
       breakEvery: 3,
       breakDuration: 10,
+      warningTime: 30,
     },
   },
   {
@@ -35,6 +37,7 @@ export const defaultPresets: Preset[] = [
       anteStartBB: 50,
       breakEvery: 3,
       breakDuration: 5,
+      warningTime: 30,
     },
   },
   {
@@ -42,11 +45,12 @@ export const defaultPresets: Preset[] = [
     name: "Гипер-турбо",
     config: {
       startBB: 100,
-      levelDuration: 0.2,
+      levelDuration: 1,
       useAnte: true,
       anteStartBB: 100,
       breakEvery: 3,
       breakDuration: 3,
+      warningTime: 50,
     },
   },
 ];

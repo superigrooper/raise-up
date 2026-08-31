@@ -10,6 +10,56 @@ interface TimerDisplayProps {
   onToggleTheater: () => void;
 }
 
+const playFinalBeep = () => {
+  if (typeof window === "undefined") return;
+  try {
+    const audioCtx = new (
+      window.AudioContext || (window as any).webkitAudioContext
+    )();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(580, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.6, audioCtx.currentTime);
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.8);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const playWarningBeep = () => {
+  if (typeof window === "undefined") return;
+  try {
+    const audioCtx = new (
+      window.AudioContext || (window as any).webkitAudioContext
+    )();
+    const playTone = (delay: number) => {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(980, audioCtx.currentTime + delay);
+      gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime + delay);
+
+      oscillator.start(audioCtx.currentTime + delay);
+      oscillator.stop(audioCtx.currentTime + delay + 0.15);
+    };
+    playTone(0);
+    playTone(0.25);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 export function TimerDisplay({
   isTheaterMode,
   onToggleTheater,
@@ -24,18 +74,35 @@ export function TimerDisplay({
     setSecondsLeft,
     nextLevel,
     setAutoStart,
+    config,
   } = usePokerStore();
 
-  // Стабильные refs для колбэков — не пересоздают интервал
   const onTickRef = useRef(setSecondsLeft);
-  const onCompleteRef = useRef(() => nextLevel(true));
+
+  const onCompleteRef = useRef(() => {
+    playFinalBeep();
+    nextLevel(true);
+  });
 
   useEffect(() => {
     onTickRef.current = setSecondsLeft;
   }, [setSecondsLeft]);
+
   useEffect(() => {
-    onCompleteRef.current = () => nextLevel(true);
+    onCompleteRef.current = () => {
+      playFinalBeep();
+      nextLevel(true);
+    };
   }, [nextLevel]);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    // Если на часах осталось ровно настроенное время — запускаем пики
+    if (config?.warningTime > 0 && secondsLeft === config.warningTime) {
+      playWarningBeep();
+    }
+  }, [secondsLeft, isPaused, config?.warningTime]);
 
   useTimer({
     secondsLeft,
@@ -44,7 +111,6 @@ export function TimerDisplay({
     onComplete: () => onCompleteRef.current(),
   });
 
-  // Пробел → пауза/старт
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement) return;
@@ -57,8 +123,6 @@ export function TimerDisplay({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isPaused, setIsPaused]);
 
-  // ── Форматирование ──
-
   const formatTime = (totalSeconds: number): string => {
     const m = Math.floor(totalSeconds / 60)
       .toString()
@@ -66,8 +130,6 @@ export function TimerDisplay({
     const s = (totalSeconds % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   };
-
-  // ── Данные текущего и следующего уровня ──
 
   const currentData = grid[currentIndex] ?? null;
 
@@ -92,9 +154,6 @@ export function TimerDisplay({
     return null;
   };
   const nextData = getNextPlayingLevel();
-
-  // ── Рендер ──
-
   const theater = isTheaterMode;
 
   return (

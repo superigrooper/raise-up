@@ -8,6 +8,7 @@ export interface TournamentConfig {
   anteStartBB: number;
   breakEvery: number;
   breakDuration: number;
+  warningTime: number;
 }
 
 export interface TournamentRow {
