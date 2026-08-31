@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { defaultPresets } from "@/lib/presets";
+import { defaultPresets } from "@/db/presets";
 import { TournamentRow, PokerState, Theme } from "@/types/poker";
 import generateBlindsGrid from "@/utils/generateBlindsGrid";
 import getSystemTheme from "@/utils/getSystemTheme";
