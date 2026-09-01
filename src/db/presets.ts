@@ -53,4 +53,17 @@ export const defaultPresets: Preset[] = [
       warningTime: 50,
     },
   },
+  {
+    id: "demo-test",
+    name: "ДЕМО-ТЕСТ",
+    config: {
+      startBB: 100,
+      levelDuration: .2,
+      useAnte: true,
+      anteStartBB: 100,
+      breakEvery: 2,
+      breakDuration: .2,
+      warningTime: 5,
+    },
+  },
 ];
