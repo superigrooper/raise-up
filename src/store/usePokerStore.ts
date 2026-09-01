@@ -24,11 +24,11 @@ export const usePokerStore = create<PokerState>()(
       currentIndex: 0,
       secondsLeft: 0,
       isPaused: true,
-      autoStart: false,
+      // autoStart: false,
       theme: DEFAULT_THEME,
       _hasHydrated: false,
 
-      setAutoStart: (value) => set({ autoStart: value }),
+      // setAutoStart: (value) => set({ autoStart: value }),
 
       setConfigValue: (key, value) => {
         set((state) => ({
@@ -88,21 +88,14 @@ export const usePokerStore = create<PokerState>()(
               : seconds,
         })),
 
-      /**
-       * auto=false — ручной переход (ставим на паузу)
-       * auto=true  — автопереход по таймеру (продолжаем играть)
-       */
-      nextLevel: (auto = false) => {
-        const { currentIndex, grid, autoStart } = get();
+      nextLevel: () => {
+        const { currentIndex, grid } = get();
         const nextIndex = currentIndex + 1;
 
         if (nextIndex < grid.length) {
           set({
             currentIndex: nextIndex,
             secondsLeft: grid[nextIndex].duration * 60,
-            // Ручной переход → всегда пауза
-            // Автопереход → смотрим на настройку autoStart
-            isPaused: auto ? !autoStart : true,
           });
         } else {
           set({ isPaused: true });
@@ -208,7 +201,7 @@ export const usePokerStore = create<PokerState>()(
         theme: state.theme,
         grid: state.grid,
         isCustomGrid: state.isCustomGrid,
-        autoStart: state.autoStart,
+        // autoStart: state.autoStart,
       }),
 
       // Миграции при смене версии схемы

@@ -69,11 +69,11 @@ export function TimerDisplay({
     currentIndex,
     secondsLeft,
     isPaused,
-    autoStart,
+    // autoStart,
     setIsPaused,
     setSecondsLeft,
     nextLevel,
-    setAutoStart,
+    // setAutoStart,
     config,
   } = usePokerStore();
 
@@ -284,38 +284,6 @@ export function TimerDisplay({
             {nextData ? `${nextData.sb} / ${nextData.bb}` : "Финальный раунд"}
           </span>
         </div>
-      </div>
-      {/* ── Автостарт ── */}
-      <div
-        className={`
-        flex items-center justify-between w-full
-        ${theater ? "max-w-2xl mt-4" : "max-w-xl mt-3"}`}
-      >
-        <label
-          htmlFor="autoStart"
-          className="
-            text-sm font-medium cursor-pointer select-none
-            text-gray-500 navy:text-slate-400"
-        >
-          🔄 Автостарт следующего уровня
-        </label>
-        <button
-          id="autoStart"
-          role="switch"
-          aria-checked={autoStart}
-          onClick={() => setAutoStart(!autoStart)}
-          className={`
-            relative inline-flex w-12 h-6 rounded-full transition-colors duration-200
-            focus:outline-none cursor-pointer
-            ${autoStart ? "bg-emerald-600" : "bg-gray-300 navy:bg-slate-700"}`}
-        >
-          <span
-            className={`
-            inline-block w-5 h-5 mt-0.5 rounded-full bg-white shadow
-            transform transition-transform duration-200
-            ${autoStart ? "translate-x-6" : "translate-x-0.5"}`}
-          />
-        </button>
       </div>
     </div>
   );

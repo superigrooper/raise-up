@@ -43,7 +43,7 @@ export interface PokerState {
   currentIndex: number;
   secondsLeft: number;
   isPaused: boolean;
-  autoStart: boolean;
+  // autoStart: boolean;
   theme: Theme;
   _hasHydrated: boolean;
 
@@ -62,7 +62,7 @@ export interface PokerState {
   resetCustomGrid: () => void;
   setTheme: (theme: Theme) => void;
   setHasHydrated: (state: boolean) => void;
-  setAutoStart: (value: boolean) => void;
+  // setAutoStart: (value: boolean) => void;
 }
 
 export interface Navigation {
