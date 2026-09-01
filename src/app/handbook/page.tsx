@@ -96,7 +96,7 @@ export default function HandbookPage() {
                       {c.desc}
                     </p>
                   </div>
-                  <div className="font-mono text-xs font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 text-[#e94560] self-start sm:self-center">
+                  <div className="font-mono text-sm font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 text-[#e94560] self-start sm:self-center">
                     {c.example}
                   </div>
                 </div>
