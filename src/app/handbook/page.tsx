@@ -82,26 +82,31 @@ export default function HandbookPage() {
         <main className="min-h-[350px]">
           {/* ВКЛАДКА 1: КОМБИНАЦИИ */}
           {activeTab === "combinations" && (
-            <div className="space-y-3 animate-fadeIn">
-              {combinations.map((c, index) => (
-                <div
-                  key={index}
-                  className="p-3 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+            <ul className="space-y-3 animate-fadeIn">
+              {combinations.map((combination) => (
+                <li
+                  key={combination.path}
+                  className="p-3"
                 >
+                  <Link
+                    title="Подробнее..."
+                    href={combination.path} 
+                    className="p-3 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                   <div>
                     <h3 className="text-sm font-black text-gray-900 navy:text-slate-100">
-                      {c.name}
+                      {combination.name}
                     </h3>
                     <p className="text-xs text-gray-400 navy:text-slate-400 mt-0.5">
-                      {c.desc}
+                      {combination.desc}
                     </p>
                   </div>
                   <div className="font-mono text-sm font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 text-[#e94560] self-start sm:self-center">
-                    {c.example}
+                    {combination.example}
                   </div>
-                </div>
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
 
           {/* ВКЛАДКА 2: ЧАРТЫ РУК */}
