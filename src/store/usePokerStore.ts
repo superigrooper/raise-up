@@ -9,7 +9,7 @@ import reindexGrid from "@/utils/reindexGrid";
 
 const CUSTOM_PRESET_ID = "custom";
 const STORE_NAME = "poker-timer";
-const STORE_VERSION = 4;
+const STORE_VERSION = 5;
 const DEFAULT_THEME = getSystemTheme();
 
 export const usePokerStore = create<PokerState>()(
@@ -22,13 +22,10 @@ export const usePokerStore = create<PokerState>()(
       grid: [],
       isCustomGrid: false,
       currentIndex: 0,
-      secondsLeft: 0,
+      secondsLeft: defaultPresets[0].config.levelDuration * 60,
       isPaused: true,
-      // autoStart: false,
       theme: DEFAULT_THEME,
       _hasHydrated: false,
-
-      // setAutoStart: (value) => set({ autoStart: value }),
 
       setConfigValue: (key, value) => {
         set((state) => ({
@@ -58,8 +55,6 @@ export const usePokerStore = create<PokerState>()(
       buildTournament: () => {
         const { config, isCustomGrid, grid } = get();
 
-        // Кастомная сетка: сбрасываем только позицию и таймер,
-        // структуру не трогаем
         if (isCustomGrid) {
           set({
             currentIndex: 0,
@@ -70,6 +65,7 @@ export const usePokerStore = create<PokerState>()(
         }
 
         const { tempGrid } = generateBlindsGrid(config);
+
         set({
           grid: tempGrid,
           currentIndex: 0,
@@ -175,8 +171,6 @@ export const usePokerStore = create<PokerState>()(
         get().buildTournament();
       },
 
-      // ── UI ──
-
       setTheme: (theme: Theme) => {
         const root = document.documentElement;
         root.classList.remove("dark", "navy", "light");
@@ -185,6 +179,7 @@ export const usePokerStore = create<PokerState>()(
       },
 
       setHasHydrated: (state) => set({ _hasHydrated: state }),
+
     }),
 
     {
@@ -192,8 +187,7 @@ export const usePokerStore = create<PokerState>()(
       version: STORE_VERSION,
 
       // Сохраняем только конфигурационные данные.
-      // secondsLeft / isPaused / currentIndex не персистируем —
-      // при перезагрузке страницы таймер всегда стартует заново.
+      // secondsLeft / isPaused / currentIndex не персистируем 
       partialize: (state) => ({
         config: state.config,
         presets: state.presets,
@@ -201,7 +195,6 @@ export const usePokerStore = create<PokerState>()(
         theme: state.theme,
         grid: state.grid,
         isCustomGrid: state.isCustomGrid,
-        // autoStart: state.autoStart,
       }),
 
       // Миграции при смене версии схемы

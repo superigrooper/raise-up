@@ -69,11 +69,9 @@ export function TimerDisplay({
     currentIndex,
     secondsLeft,
     isPaused,
-    // autoStart,
     setIsPaused,
     setSecondsLeft,
     nextLevel,
-    // setAutoStart,
     config,
   } = usePokerStore();
 
