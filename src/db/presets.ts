@@ -50,7 +50,7 @@ export const defaultPresets: Preset[] = [
       anteStartBB: 100,
       breakEvery: 3,
       breakDuration: 3,
-      warningTime: 50,
+      warningTime: 30,
     },
   },
   {

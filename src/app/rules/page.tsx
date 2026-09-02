@@ -4,36 +4,16 @@ import Footer from "@/components/Footer";
 import { usePokerStore } from "@/store/usePokerStore";
 import getThemeClass from "@/utils/getThemeClass";
 import { Theme } from "@/types/poker";
+import { pokerGames } from "@/db/games";
 
 export default function RulesMenu() {
   const theme: Theme = usePokerStore((state) => state.theme);
-
-  const pokerGames = [
-    {
-      title: "🃏 Безлимитный Холдем",
-      desc: "Самая популярная дисциплина. 2 карманные карты, 5 общих карт на доске.",
-      path: "/rules/holdem",
-      color: "hover:border-[#e94560]",
-    },
-    {
-      title: "🍇 Омаха (PLO)",
-      desc: "Динамичная игра. 4 карманные карты, строгое правило использования 2 карт с руки.",
-      path: "/rules/omaha",
-      color: "hover:border-emerald-500",
-    },
-    {
-      title: "🐴 7-карт Стад",
-      desc: "Классика без общих карт. Каждый игрок получает по 7 персональных карт.",
-      path: "/rules/stud",
-      color: "hover:border-amber-500",
-    },
-  ];
 
   return (
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
-      <div className="w-full max-w-3xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+      <div className="w-full max-w-5xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         <header className="mb-8 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
           <div>
             <h1 className="text-2xl font-black">📜 Правила покера</h1>
