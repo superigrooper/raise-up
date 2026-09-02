@@ -21,7 +21,7 @@ export default function StudRules() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
-      <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+      <div className="w-full max-w-5xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
           <Link
             href="/handbook"
@@ -274,7 +274,7 @@ export default function StudRules() {
 
           <footer className="p-6 rounded-2xl bg-emerald-50 navy:bg-[#1C2541] border border-emerald-200 navy:border-cyan-900/50">
             <h3 className="text-lg font-bold text-emerald-900 navy:text-cyan-400 mb-2">
-              💡 Совет школы покера: Коварство Трипса со слабым кикером
+              💡 Совет: Коварство Трипса со слабым кикером
             </h3>
             <p className="text-sm text-emerald-950 navy:text-slate-300">
               Главная ловушка для новичков — это розыгрыш Трипса со слабым

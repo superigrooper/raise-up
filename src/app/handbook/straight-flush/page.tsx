@@ -21,9 +21,8 @@ export default function StudRules() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
-      <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+      <div className="w-full max-w-5xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
-          <h1 className="text-xl font-black">Стрит (Straight)</h1>
           <Link
             href="/handbook"
             className="text-sm font-bold text-[#e94560] hover:underline"
@@ -35,7 +34,7 @@ export default function StudRules() {
           {/* Заголовок статьи */}
           <header className="border-b border-slate-200 navy:border-slate-700 pb-6 mb-8">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 navy:text-white tracking-tight mb-4">
-              Комбинация Стрит-Флеш (Straight Flush) в покере
+              Стрит-Флеш (Straight Flush)
             </h1>
             <p className="text-lg text-slate-600 navy:text-[#9BA1A6]">
               Вторая по силе рука в покере, уступающая лишь легендарному
@@ -235,7 +234,7 @@ export default function StudRules() {
           {/* Стратегический совет */}
           <footer className="p-6 rounded-2xl bg-emerald-50 navy:bg-[#1C2541] border border-emerald-200 navy:border-cyan-900/50">
             <h3 className="text-lg font-bold text-emerald-900 navy:text-cyan-400 mb-2">
-              💡 Совет школы покера: Как разыгрывать монстр-руку
+              💡 Совет: Как разыгрывать монстр-руку
             </h3>
             <p className="text-sm text-emerald-950 navy:text-slate-300">
               Собрать Стрит-Флеш — это огромная удача, но ваша главная задача за

@@ -27,7 +27,7 @@ export default function HandbookPage() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center font-sans ${getThemeClass(theme)}`}
     >
-      <div className="w-full max-w-3xl bg-white navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+      <div className="w-full max-w-5xl bg-white navy:bg-[#121224] p-5 md:p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         {/* Шапка справочника */}
         <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
           <div>

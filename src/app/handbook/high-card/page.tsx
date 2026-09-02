@@ -21,7 +21,7 @@ export default function StudRules() {
     <div
       className={`min-h-screen transition-colors duration-200 p-4 md:p-8 flex flex-col items-center justify-center font-sans ${getThemeClass(theme)}`}
     >
-      <div className="w-full max-w-2xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
+      <div className="w-full max-w-5xl bg-white navy:bg-[#121224] p-6 rounded-2xl shadow-lg border border-gray-200 navy:border-slate-800">
         <header className="mb-6 flex items-center justify-between border-b pb-4 border-gray-100 navy:border-slate-900/60">
           <Link
             href="/handbook"
@@ -33,7 +33,7 @@ export default function StudRules() {
         <article className="space-y-4 text-xs md:text-sm text-gray-600 navy:text-slate-300 leading-relaxed">
           <header className="border-b border-slate-200 navy:border-slate-700 pb-6 mb-8">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 navy:text-white tracking-tight mb-4">
-              Старшая карта (High Card) в покере
+              Старшая карта (High Card)
             </h1>
             <p className="text-lg text-slate-600 navy:text-[#9BA1A6]">
               Самая базовая и слабая рука в иерархии покерных комбинаций.
@@ -204,7 +204,7 @@ export default function StudRules() {
           {/* Стратегический совет */}
           <footer className="p-6 rounded-2xl bg-emerald-50 navy:bg-[#1C2541] border border-emerald-200 navy:border-cyan-900/50">
             <h3 className="text-lg font-bold text-emerald-900 navy:text-cyan-400 mb-2">
-              💡 Совет школы покера: Стратегия блефа и шоудаун-велью
+              💡 Совет: Стратегия блефа и шоудаун-велью
             </h3>
             <p className="text-sm text-emerald-950 navy:text-slate-300">
               Имея на руках только Старшую карту к риверу, выиграть на вскрытии
