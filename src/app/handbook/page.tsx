@@ -130,7 +130,7 @@ export default function HandbookPage() {
           {/* ВКЛАДКА 3: СЛОВАРЬ */}
           {activeTab === "dictionary" && (
             <div className="space-y-3 animate-fadeIn">
-              {terms.map((item, index) => (
+              {/* {terms.map((item, index) => (
                 <div
                   key={index}
                   className="p-3.5 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30"
@@ -142,7 +142,122 @@ export default function HandbookPage() {
                     {item.def}
                   </p>
                 </div>
-              ))}
+              ))} */}
+              <header className="border-b border-slate-200 navy:border-slate-700 pb-6 mb-8">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 navy:text-white tracking-tight mb-4">
+            Покерный глоссарий: Термины и сленг
+          </h1>
+          <p className="text-lg text-slate-600 navy:text-[#9BA1A6]">
+            Полный справочник базовых понятий, тактических приемов и сленговых выражений. Изучите язык профессиональных игроков для уверенной игры за столом.
+          </p>
+        </header>
+
+        {/* Категория 1: Базовые действия в торгах */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 navy:text-white mb-6 border-l-4 border-emerald-500 pl-3">
+            Базовые действия и решения
+          </h2>
+          
+          <div className="space-y-4">
+            {/* Фолд */}
+            <div className="p-5 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541] shadow-sm">
+              <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                <h3 className="text-lg font-bold text-slate-900 navy:text-white">Фолд (Fold / Пас)</h3>
+                <span className="text-xs font-mono text-slate-400">[существительное / глагол]</span>
+              </div>
+              <p className="text-sm text-slate-600 navy:text-slate-300">
+                Отказ от продолжения борьбы за банк в текущей раздаче. Игрок сбрасывает свои карты в закрытую на стол и больше не совершает никаких действий до следующей сдачи. Все фишки, поставленные игроком ранее, остаются в банке.
+              </p>
+            </div>
+
+            {/* Лимп */}
+            <div className="p-5 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541] shadow-sm">
+              <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                <h3 className="text-lg font-bold text-slate-900 navy:text-white">Лимп (Limp)</h3>
+                <span className="text-xs font-mono text-slate-400">[тактический прием]</span>
+              </div>
+              <p className="text-sm text-slate-600 navy:text-slate-300">
+                Вход в игру на префлопе обычным уравниванием размера Большого Блайнда (Call) без повышения. В современной покерной стратегии открытый лимп (когда до вас никто не входил в игру) считается признаком слабого игрока, так как он не дает возможности забрать банк сразу.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Категория 2: Тактические приемы на Постфлопе */}
+        <section className="mb-10">
+          <h2 className="text-2xl font-bold text-slate-900 navy:text-white mb-6 border-l-4 border-emerald-500 pl-3">
+            Тактические приемы и линии игры
+          </h2>
+          
+          <div className="space-y-4">
+            {/* Контбет */}
+            <div className="p-5 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541] shadow-sm">
+              <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                <h3 className="text-lg font-bold text-slate-900 navy:text-white">Контбет (Continuation Bet / C-Bet)</h3>
+                <span className="text-xs font-mono text-slate-400">[продолженная ставка]</span>
+              </div>
+              <p className="text-sm text-slate-600 navy:text-slate-300">
+                Ставка на флопе, которую делает игрок, бывший агрессором (повышавший ставку) на предыдущей улице (префлопе). Этим действием игрок продолжает демонстрировать силу своей руки, пытаясь забрать банк сразу, даже если карты флопа ему не подошли.
+              </p>
+            </div>
+
+            {/* Чек-Рейз */}
+            <div className="p-5 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541] shadow-sm">
+              <div className="flex flex-wrap items-baseline gap-2 mb-2">
+                <h3 className="text-lg font-bold text-slate-900 navy:text-white">Чек-Рейз (Check-Raise)</h3>
+                <span className="text-xs font-mono text-slate-400">[агрессивный прием]</span>
+              </div>
+              <p className="text-sm text-slate-600 navy:text-slate-300">
+                Прием, при котором игрок сначала объявляет «Чек» (пропускает ход), провоцируя соперника сделать ставку, а после ставки оппонента заявляет «Рейз» (повышение). Это одна из самых мощных и агрессивных линий розыгрыша, используемая как для извлечения максимальной прибыли с сильной рукой, так и для жесткого блефа.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Дополнительные важные термины */}
+        <section className="mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 navy:text-white mb-6 border-l-4 border-emerald-500 pl-3">
+            Что еще нужно знать новичку
+          </h2>
+          
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541]">
+              <h4 className="font-bold text-emerald-600 navy:text-cyan-400 mb-1">Натс (Nuts)</h4>
+              <p className="text-xs text-slate-600 navy:text-slate-400">
+                Абсолютно лучшая, непобедимая комбинация карт в конкретный момент раздачи с учетом структуры карт на столе.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541]">
+              <h4 className="font-bold text-emerald-600 navy:text-cyan-400 mb-1">Дро (Draw)</h4>
+              <p className="text-xs text-slate-600 navy:text-slate-400">
+                Недостроенная комбинация карт (например, Флеш-дро или Стрит-дро), которой не хватает одной или двух карт для превращения в готовую сильную руку.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541]">
+              <h4 className="font-bold text-emerald-600 navy:text-cyan-400 mb-1">Борд (Board / Доска)</h4>
+              <p className="text-xs text-slate-600 navy:text-slate-400">
+                Пять общих карт, которые дилер выкладывает лицом вверх в центр стола во время раундов флоп, терн и ривер.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 navy:border-slate-800 bg-white navy:bg-[#1C2541]">
+              <h4 className="font-bold text-emerald-600 navy:text-cyan-400 mb-1">Стек (Stack)</h4>
+              <p className="text-xs text-slate-600 navy:text-slate-400">
+                Общее количество фишек или денег, которыми располагает игрок за столом в текущий момент времени.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Блок внимания */}
+        <footer className="p-6 rounded-2xl bg-emerald-50 navy:bg-[#1C2541] border border-emerald-200 navy:border-cyan-900/50">
+          <h3 className="text-lg font-bold text-emerald-900 navy:text-cyan-400 mb-2">💡 Совет школы покера: Изучайте контекст</h3>
+          <p className="text-sm text-emerald-950 navy:text-slate-300">
+            Понимание терминологии — это фундамент. Профессиональные игроки общаются на этом языке автоматически, разбирая раздачи. Знание того, чем отличается простой <em>колл</em> от <em>коллирования контбета</em> или как реагировать на чужой <em>чек-рейз</em>, убережет ваш стек от спонтанных и ошибочных решений.
+          </p>
+        </footer>
             </div>
           )}
         </main>
