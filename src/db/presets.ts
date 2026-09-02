@@ -58,11 +58,11 @@ export const defaultPresets: Preset[] = [
     name: "ДЕМО-ТЕСТ",
     config: {
       startBB: 100,
-      levelDuration: .2,
+      levelDuration: 0.2,
       useAnte: true,
       anteStartBB: 100,
       breakEvery: 2,
-      breakDuration: .2,
+      breakDuration: 0.2,
       warningTime: 5,
     },
   },

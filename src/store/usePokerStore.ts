@@ -179,7 +179,6 @@ export const usePokerStore = create<PokerState>()(
       },
 
       setHasHydrated: (state) => set({ _hasHydrated: state }),
-
     }),
 
     {
@@ -187,7 +186,7 @@ export const usePokerStore = create<PokerState>()(
       version: STORE_VERSION,
 
       // Сохраняем только конфигурационные данные.
-      // secondsLeft / isPaused / currentIndex не персистируем 
+      // secondsLeft / isPaused / currentIndex не персистируем
       partialize: (state) => ({
         config: state.config,
         presets: state.presets,
