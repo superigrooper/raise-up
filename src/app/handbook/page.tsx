@@ -82,23 +82,23 @@ export default function HandbookPage() {
         <main className="min-h-[350px]">
           {/* ВКЛАДКА 1: КОМБИНАЦИИ */}
           {activeTab === "combinations" && (
-            <ul className="space-y-3 animate-fadeIn">
+            <ul className=" animate-fadeIn">
               {combinations.map((combination) => (
-                <li key={combination.path} className="p-3">
+                <li key={combination.path} className="p-1">
                   <Link
                     title="Подробнее..."
                     href={combination.path}
-                    className="p-3 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                    className="p-1 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
                   >
                     <div>
-                      <h3 className="text-sm font-black text-gray-900 navy:text-slate-100">
+                      <h3 className="text-xl font-black text-gray-900 navy:text-slate-100">
                         {combination.name}
                       </h3>
                       <p className="text-xs text-gray-400 navy:text-slate-400 mt-0.5">
                         {combination.desc}
                       </p>
                     </div>
-                    <div className="font-mono text-sm font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 text-[#e94560] self-start sm:self-center">
+                    <div className="font-mono text-2xl font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 self-start sm:self-center">
                       {combination.example}
                     </div>
                   </Link>
