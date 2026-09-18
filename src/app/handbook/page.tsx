@@ -98,7 +98,7 @@ export default function HandbookPage() {
                         {combination.desc}
                       </p>
                     </div>
-                    <div className="font-mono text-2xl font-bold bg-white navy:bg-[#0b0b14] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 self-start sm:self-center">
+                    <div className="font-mono text-2xl font-bold bg-white navy:bg-[slategray] px-2.5 py-1 rounded-md border border-gray-200 navy:border-slate-800 self-start sm:self-center">
                       {combination.example}
                     </div>
                   </Link>
@@ -130,27 +130,14 @@ export default function HandbookPage() {
           {/* ВКЛАДКА 3: СЛОВАРЬ */}
           {activeTab === "dictionary" && (
             <div className="space-y-3 animate-fadeIn">
-              {/* {terms.map((item, index) => (
-                <div
-                  key={index}
-                  className="p-3.5 rounded-xl border border-gray-100 navy:border-slate-900/30 bg-gray-50/50 navy:bg-[#0b0b14]/30"
-                >
-                  <h3 className="text-sm font-black text-[#e94560] mb-0.5">
-                    {item.term}
-                  </h3>
-                  <p className="text-xs text-gray-500 navy:text-slate-400 leading-relaxed font-medium">
-                    {item.def}
-                  </p>
-                </div>
-              ))} */}
               <header className="border-b border-slate-200 navy:border-slate-700 pb-6 mb-8">
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 navy:text-white tracking-tight mb-4">
                   Покерный глоссарий: Термины и сленг
                 </h1>
                 <p className="text-lg text-slate-600 navy:text-[#9BA1A6]">
-                  Полный справочник базовых понятий, тактических приемов и
+                  Справочник базовых понятий, тактических приемов и
                   сленговых выражений. Изучите язык профессиональных игроков для
-                  уверенной игры за столом.
+                  уверенной игры.
                 </p>
               </header>
 
@@ -173,8 +160,8 @@ export default function HandbookPage() {
                     </div>
                     <p className="text-sm text-slate-600 navy:text-slate-300">
                       Отказ от продолжения борьбы за банк в текущей раздаче.
-                      Игрок сбрасывает свои карты в закрытую на стол и больше не
-                      совершает никаких действий до следующей сдачи. Все фишки,
+                      Игрок сбрасывает свои карты в пас и больше не
+                      совершает никаких действий до следующей раздачи. Все фишки,
                       поставленные игроком ранее, остаются в банке.
                     </p>
                   </div>
@@ -301,7 +288,7 @@ export default function HandbookPage() {
               {/* Блок внимания */}
               <footer className="p-6 rounded-2xl bg-emerald-50 navy:bg-[#1C2541] border border-emerald-200 navy:border-cyan-900/50">
                 <h3 className="text-lg font-bold text-emerald-900 navy:text-cyan-400 mb-2">
-                  💡 Совет школы покера: Изучайте контекст
+                  💡 Совет: Изучайте контекст
                 </h3>
                 <p className="text-sm text-emerald-950 navy:text-slate-300">
                   Понимание терминологии — это фундамент. Профессиональные

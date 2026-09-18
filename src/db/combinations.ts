@@ -32,7 +32,7 @@ export const combinations = [
   {
     name: "🪜 Стрит",
     desc: "Пять последовательных карт разных мастей.",
-    example: "5♣️ 6♠️ 7♥️ 8♦️ 9♣",
+    example: "5♣️ 6♠️ 7♥️ 8♦️ 9♣️",
     path: "handbook/straight",
   },
   {
